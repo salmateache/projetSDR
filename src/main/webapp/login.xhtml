@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html">
+   <h:head>
+    <title>Login</title>
+    <h:outputStylesheet library="css" name="style2.css" />
+</h:head>
+<h:body class="login-body">
+
+    <div class="login-container">
+        <h2>Connexion</h2>
+        <h:form>
+            <h:messages globalOnly="true" styleClass="error" />
+
+            <label>Email ou Nom d'utilisateur</label>
+            <h:inputText value="#{loginController.email}" styleClass="input"/>
+
+            <label>Mot de passe</label>
+            <h:inputSecret value="#{loginController.password}" styleClass="input"/>
+
+            <h:commandButton value="Se connecter" action="#{loginController.login}" styleClass="btn"/>
+
+            <div class="signup-link">
+                <span>Vous n'avez pas de compte ?</span>
+                <h:link outcome="signup.xhtml" value="Créer un compte"/>
+            </div>
+        </h:form>
+    </div>
+</h:body>
+</html>

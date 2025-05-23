@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+   <h:head>
+    <title>Créer un compte</title>
+    <h:outputStylesheet name="css/style2.css" />
+</h:head>
+<h:body class="login-body">
+
+    <div class="login-container">
+        <h2>Créer un compte</h2>
+        <h:form>
+            <h:messages globalOnly="true" styleClass="error"/>
+
+            <label>Nom d'utilisateur</label>
+            <h:inputText value="#{signupController.nom}" required="true" styleClass="input"/>
+            <label> Prenom d'utilisateur</label>
+            <h:inputText value="#{signupController.prenom}" required="true" styleClass="input"/>
+            <label>Email</label>
+            <h:inputText value="#{signupController.email}" required="true" styleClass="input"/>
+
+            <label>Mot de passe</label>
+            <h:inputSecret value="#{signupController.password}" required="true" styleClass="input"/>
+
+             <label>Téléphone</label>
+            <h:inputText value="#{signupController.telephone}" required="true" styleClass="input"/>
+            
+            <label>Rôle</label>
+            <h:selectOneMenu value="#{signupController.role}" styleClass="input">
+                <f:selectItem itemLabel="Choisir un rôle" itemValue="" />
+                <f:selectItem itemLabel="Patient" itemValue="patient" />
+                <f:selectItem itemLabel="Admin" itemValue="admin" />
+            </h:selectOneMenu>
+
+            <h:commandButton value="Créer le compte" action="#{signupController.register}" styleClass="btn"/>
+
+            <div class="signup-link">
+                <span>Vous avez déjà un compte ?</span>
+                <h:link outcome="login.xhtml" value="Se connecter"/>
+            </div>
+        </h:form>
+    </div>
+
+</h:body>
+</html>

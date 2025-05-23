@@ -1,0 +1,8 @@
+com\mycompany\srd_project\JakartaRestConfiguration.class
+controller\SignupController.class
+controller\LoginController.class
+ejb\UtilisateurFacade.class
+controller\UtilisateurController.class
+ejb\AbstractFacade.class
+com\mycompany\srd_project\resources\JakartaEE10Resource.class
+entities\Utilisateur.class
