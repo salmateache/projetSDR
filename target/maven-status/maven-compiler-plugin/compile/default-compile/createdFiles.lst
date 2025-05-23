@@ -1,0 +1,11 @@
+entities\Medecins.class
+entities\Patients.class
+controllers\RendezvousController.class
+entities\Utilisateurs.class
+models\MedecinsFacade.class
+models\UtilisateursFacade.class
+com\mycompany\srdprojet\resources\JakartaEE10Resource.class
+models\AbstractFacade.class
+entities\Rendezvous.class
+models\PatientsFacade.class
+models\RendezvousFacade.class
