@@ -8,10 +8,13 @@ import entities.Rendezvous;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
- * @author hp
+ * @author USER
  */
 @Stateless
 public class RendezvousFacade extends AbstractFacade<Rendezvous> {
@@ -27,5 +30,12 @@ public class RendezvousFacade extends AbstractFacade<Rendezvous> {
     public RendezvousFacade() {
         super(Rendezvous.class);
     }
+    public List<Rendezvous> findByDateTime(Date date, Date time) {
+    TypedQuery<Rendezvous> query = em.createQuery(
+        "SELECT r FROM Rendezvous r WHERE r.dateRdv = :date AND r.heureRdv = :time", Rendezvous.class);
+    query.setParameter("date", date);
+    query.setParameter("time", time);
+    return query.getResultList();
+}
     
 }
