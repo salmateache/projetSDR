@@ -20,6 +20,8 @@ public class LoginController implements Serializable {
     private String email;
     private String password;
     private Utilisateur utilisateurConnecte;
+    private boolean loggedIn = false;
+
 
     public LoginController() {}
 
@@ -29,10 +31,11 @@ public class LoginController implements Serializable {
         if ((u.getEmail().equalsIgnoreCase(email) || u.getNom().equalsIgnoreCase(email)) &&
              u.getPassword().equals(password)) {
             utilisateurConnecte = u;
+            loggedIn = true;
             if ("admin".equalsIgnoreCase(u.getRole())) {
                 return "admin.xhtml?faces-redirect=true";
             } else if ("patient".equalsIgnoreCase(u.getRole())) {
-                return "patient.xhtml?faces-redirect=true";
+                return "home.xhtml?faces-redirect=true";
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Rôle inconnu", null));
@@ -44,6 +47,22 @@ public class LoginController implements Serializable {
         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Identifiants invalides", null));
     return null;
 }
+    public String goToAppointment() {
+        if (loggedIn) {
+            return "appointment.xhtml?faces-redirect=true";
+        } else {
+            return "login.xhtml?faces-redirect=true";
+        }
+    }
+    public String logout() {
+    FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+    return "login.xhtml?faces-redirect=true";
+}
+
+    
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
 
 
     // Getters & Setters

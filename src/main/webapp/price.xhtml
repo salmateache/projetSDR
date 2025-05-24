@@ -56,7 +56,7 @@
     </div>
     <!-- Topbar End -->
 
-    <!-- Navbar Start -->
+ <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
         <a href="home.xhtml" class="navbar-brand p-0">
             <h1 class="m-0 text-primary"><i class="fa fa-tooth me-2"/>DentCare</h1>
@@ -66,22 +66,43 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="home.xhtml" class="nav-item nav-link">Home</a>
+                <a href="home.xhtml" class="nav-item nav-link ">Home</a>
                 <a href="about.xhtml" class="nav-item nav-link ">About</a>
-                <a href="service.xhtml" class="nav-item nav-link ">Service</a>
+                <a href="service.xhtml" class="nav-item nav-link">Service</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
                         <a href="price.xhtml" class="dropdown-item active">Pricing Plan</a>
-                        <a href="team.xhtml" class="dropdown-item">Our Dentist</a>
                         <a href="testimonial.xhtml" class="dropdown-item">Testimonial</a>
                         <a href="appointment.xhtml" class="dropdown-item">Appointment</a>
                     </div>
                 </div>
-                <a href="contact.xhtml" class="nav-item nav-link">Contact</a>
+                <a href="contact.xhtml" class="nav-item nav-link ">Contact</a>
             </div>
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"/></button>
-            <a href="login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
+            <!-- Bouton LOGIN : affiché seulement si l'utilisateur N'EST PAS connecté -->
+            <h:panelGroup rendered="#{!loginController.loggedIn}">
+                <a href="login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
+            </h:panelGroup>
+
+            <!-- Menu déroulant : affiché seulement si l'utilisateur EST connecté -->
+            <h:form styleClass="nav-item dropdown ms-2" rendered="#{loginController.loggedIn}">
+                <a href="#" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
+                </a>
+                <div class="dropdown-menu dropdown-menu-start m-0">
+                    <a href="manageAccount.xhtml" class="dropdown-item">
+                        <i class="fa fa-user me-2"></i> Manage Account
+                    </a>
+                    <h:commandLink action="#{loginController.logout}" 
+                                    styleClass="dropdown-item"
+                                    onclick="return confirm('Are you sure you want to logout?');">
+                         <i class="fa fa-sign-out-alt me-2"></i> Logout
+                     </h:commandLink>
+
+                </div>
+            </h:form>
+
         </div>
     </nav>
     <!-- Navbar End -->

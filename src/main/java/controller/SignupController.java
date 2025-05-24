@@ -16,8 +16,10 @@ public class SignupController implements Serializable {
     private String prenom;
     private String email;
     private String password;
+    private String confirmPassword;
     private String role;
     private String telephone;
+    
     
 
  @EJB
@@ -30,6 +32,19 @@ public class SignupController implements Serializable {
             new FacesMessage(FacesMessage.SEVERITY_ERROR, "Tous les champs sont obligatoires", null));
         return null;
     }
+    if (!password.equals(confirmPassword)) {
+    FacesContext.getCurrentInstance().addMessage(null,
+        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Les mots de passe ne correspondent pas.", null));
+    return null; // Reste sur la page
+    }
+    // Vérification de l'existence de l'utilisateur
+        Utilisateur existingUser = userEJB.findByEmail(email);
+        if (existingUser != null) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Un compte avec cet email existe déjà.", null));
+            return null;
+        }
+
 
     Utilisateur u = new Utilisateur();
     u.setNom(nom);
@@ -65,6 +80,8 @@ public class SignupController implements Serializable {
     
     public String getTelephone() {  return telephone;  }
     public void setTelephone(String telephone) { this.telephone = telephone;  }
+    public String getConfirmPassword() { return confirmPassword;}
+    public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword;}
   
 }
 

@@ -65,22 +65,43 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="faces/home.xhtml" class="nav-item nav-link">Home</a>
+                <a href="faces/home.xhtml" class="nav-item nav-link active">Home</a>
                 <a href="faces/about.xhtml" class="nav-item nav-link ">About</a>
                 <a href="faces/service.xhtml" class="nav-item nav-link">Service</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
                         <a href="faces/price.xhtml" class="dropdown-item">Pricing Plan</a>
-                        <a href="faces/team.xhtml" class="dropdown-item">Our Dentist</a>
                         <a href="faces/testimonial.xhtml" class="dropdown-item">Testimonial</a>
                         <a href="faces/appointment.xhtml" class="dropdown-item">Appointment</a>
                     </div>
                 </div>
-                <a href="contact.xhtml" class="nav-item nav-link active">Contact</a>
+                <a href="contact.xhtml" class="nav-item nav-link ">Contact</a>
             </div>
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"/></button>
-            <a href="login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
+            <!-- Bouton LOGIN : affiché seulement si l'utilisateur N'EST PAS connecté -->
+            <h:panelGroup rendered="#{!loginController.loggedIn}">
+                <a href="faces/login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
+            </h:panelGroup>
+
+            <!-- Menu déroulant : affiché seulement si l'utilisateur EST connecté -->
+            <h:form styleClass="nav-item dropdown ms-2" rendered="#{loginController.loggedIn}">
+                <a href="#" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
+                </a>
+                <div class="dropdown-menu dropdown-menu-start m-0">
+                    <a href="faces/manageAccount.xhtml" class="dropdown-item">
+                        <i class="fa fa-user me-2"></i> Manage Account
+                    </a>
+                    <h:commandLink action="#{loginController.logout}" 
+                                    styleClass="dropdown-item"
+                                    onclick="return confirm('Are you sure you want to logout?');">
+                         <i class="fa fa-sign-out-alt me-2"></i> Logout
+                     </h:commandLink>
+
+                </div>
+            </h:form>
+
         </div>
     </nav>
     <!-- Navbar End -->
@@ -120,8 +141,12 @@
                         <div class="p-3" style="max-width: 900px;">
                             <h5 class="text-white text-uppercase mb-3 animated slideInDown">Keep Your Teeth Healthy</h5>
                             <h1 class="display-1 text-white mb-md-4 animated zoomIn">Take The Best Quality Dental Treatment</h1>
-                            <h:link value="Appointment" outcome="appointment" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
-                            <h:link value="Contact Us" outcome="contact" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight" />
+                            <div class="d-flex justify-content-center flex-wrap">
+                            <h:form styleClass="d-flex flex-wrap">
+                                <h:commandLink value="Appointment" action="#{loginController.goToAppointment}"  styleClass="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
+                                <h:commandLink value="Contact Us" action="contact.xhtml" styleClass="btn btn-secondary py-md-3 px-md-5 animated slideInRight" />
+                            </h:form>
+                            </div>    
                         </div>
                     </div>
                 </div>
@@ -133,8 +158,12 @@
                         <div class="p-3" style="max-width: 900px;">
                             <h5 class="text-white text-uppercase mb-3 animated slideInDown">Keep Your Teeth Healthy</h5>
                             <h1 class="display-1 text-white mb-md-4 animated zoomIn">Take The Best Quality Dental Treatment</h1>
-                            <h:link value="Appointment" outcome="appointment" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
-                            <h:link value="Contact Us" outcome="contact" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight" />
+                            <div class="d-flex justify-content-center flex-wrap">
+                            <h:form styleClass="d-flex flex-wrap">
+                                <h:commandLink value="Appointment" action="#{loginController.goToAppointment}"  styleClass="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
+                                <h:commandLink value="Contact Us" action="contact.xhtml" styleClass="btn btn-secondary py-md-3 px-md-5 animated slideInRight" />
+                            </h:form>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -152,7 +181,7 @@
     <!-- Carousel End -->
     <!-- Banner Start -->
     <h:form>
-        <div class="container-fluid banner mb-5">
+        <div class="container-fluid banner mb-5" style="margin-left: 230px">
             <div class="container">
                 <div class="row gx-0">
                     <div class="col-lg-4 wow zoomIn" data-wow-delay="0.1s">
@@ -173,28 +202,7 @@
                             <h:link value="Appointment" outcome="appointment" class="btn btn-light" />
                         </div>
                     </div>
-                    <div class="col-lg-4 wow zoomIn" data-wow-delay="0.3s">
-                        <div class="bg-dark d-flex flex-column p-5" style="height: 300px;">
-                            <h3 class="text-white mb-3">Search A Doctor</h3>
-                            <div class="date mb-3" id="date" data-target-input="nearest">
-                                <h:inputText id="date"
-                                             value="#{appointmentBean.date}"
-                                             styleClass="form-control bg-light border-0 datetimepicker-input"
-                                             style="height: 40px;">
-                                    <f:passThroughAttribute name="placeholder" value="Appointment Date" />
-                                </h:inputText>
-
-                            </div>
-                            <h:selectOneMenu class="form-select bg-light border-0 mb-3" style="height: 40px;">
-                                <f:selectItem itemLabel="Select A Service" itemValue="" />
-                                <f:selectItem itemLabel="Service 1" itemValue="1" />
-                                <f:selectItem itemLabel="Service 2" itemValue="2" />
-                                <f:selectItem itemLabel="Service 3" itemValue="3" />
-                            </h:selectOneMenu>
-                            <h:link value="Search Doctor" outcome="team" class="btn btn-light" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4 wow zoomIn" data-wow-delay="0.6s">
+                                        <div class="col-lg-4 wow zoomIn" data-wow-delay="0.6s">
                         <div class="bg-secondary d-flex flex-column p-5" style="height: 300px;">
                             <h3 class="text-white mb-3">Make Appointment</h3>
                             <p class="text-white">Ipsum erat ipsum dolor clita rebum no rebum dolores labore, ipsum magna at eos et eos amet.</p>
