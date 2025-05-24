@@ -6,6 +6,30 @@
     --dark: #091E3E;
 }
 
+ .appointment-messages ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.appointment-messages ul li {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: gray; /* couleur par défaut */
+}
+
+/* message d'erreur */
+.appointment-messages ul li.ui-message-error {
+  color: #dc3545 !important; /* rouge vif */
+}
+
+/* message d'info */
+.appointment-messages ul li.ui-message-info {
+  color: #28a745 !important; /* vert vif */
+}
+
+        
 h1,
 h2,
 .font-weight-bold {

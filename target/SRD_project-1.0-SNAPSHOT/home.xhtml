@@ -73,8 +73,7 @@
                     <div class="dropdown-menu m-0">
                         <a href="faces/price.xhtml" class="dropdown-item">Pricing Plan</a>
                         <a href="faces/testimonial.xhtml" class="dropdown-item">Testimonial</a>
-                        <a href="faces/appointment.xhtml" class="dropdown-item">Appointment</a>
-                    </div>
+                        <a href="#" onclick="return checkLoginAndRedirect();" class="dropdown-item">Appointment</a>                    </div>
                 </div>
                 <a href="contact.xhtml" class="nav-item nav-link ">Contact</a>
             </div>
@@ -338,6 +337,18 @@
     <!-- Autres scripts JS -->
     <h:outputScript name="lib/twentytwenty/jquery.event.move.js" />
     <h:outputScript name="lib/twentytwenty/jquery.twentytwenty.js" />
+    <h:outputScript target="head">
+            function checkLoginAndRedirect() {
+                var isLoggedIn = "#{loginController.utilisateurConnecte != null ? 'true' : 'false'}";
+                if (isLoggedIn === 'true') {
+                    window.location.href = 'faces/appointment.xhtml';
+                } else {
+                    alert('Please login first!');
+                    window.location.href = 'faces/login.xhtml';
+                }
+                return false; // empêche le lien par défaut
+            }
+        </h:outputScript>
 </h:body>
 </html>
 

@@ -76,7 +76,7 @@
                     <div class="dropdown-menu m-0">
                         <a href="price.xhtml" class="dropdown-item">Pricing Plan</a>
                         <a href="testimonial.xhtml" class="dropdown-item">Testimonial</a>
-                        <a href="appointment.xhtml" class="dropdown-item active">Appointment</a>
+                        <a href="#" onclick="return checkLoginAndRedirect();" class="dropdown-item">Appointment</a>
                     </div>
                 </div>
                 <a href="contact.xhtml" class="nav-item nav-link ">Contact</a>
@@ -159,51 +159,42 @@
                     </div>
                 </div>
                 
-            <h:form class="appointment-form h-100 d-flex flex-column justify-content-center text-center p-5 wow zoomIn" >
-                        <h1 class="text-white mb-4">Make Appointment</h1>
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <h:selectOneMenu value="#{appointmentBean.selectedService}" class="form-select bg-light border-0" style="height: 55px;">
-                                <f:selectItem itemLabel="Select A Service" itemValue="" />
-                                <f:selectItem itemLabel="Service 1" itemValue="1" />
-                                <f:selectItem itemLabel="Service 2" itemValue="2" />
-                                <f:selectItem itemLabel="Service 3" itemValue="3" />
-                            </h:selectOneMenu>
+                <h:form class="appointment-form h-100 d-flex flex-column justify-content-center text-center p-5 wow zoomIn">
+                <h1 class="text-white mb-4">Book an Appointment</h1>
 
-                            <h:selectOneMenu value="#{appointmentBean.selectedDoctor}" class="form-select bg-light border-0" style="height: 55px;">
-                                <f:selectItem itemLabel="Select Doctor" itemValue="" />
-                                <f:selectItem itemLabel="Doctor 1" itemValue="1" />
-                                <f:selectItem itemLabel="Doctor 2" itemValue="2" />
-                                <f:selectItem itemLabel="Doctor 3" itemValue="3" />
-                            </h:selectOneMenu>
+                <h:messages id="messages" globalOnly="true" styleClass="appointment-messages" layout="list" style="font-size: 20px; font-weight:6px" />
 
-                            <h:inputText value="#{appointmentBean.name}"
-                                         styleClass="form-control bg-light border-0"
-                                         style="height: 55px;">
-                                <f:passThroughAttribute name="placeholder" value="Your Name" />
-                            </h:inputText>
-                            <h:inputText value="#{appointmentBean.email}"
-                                         styleClass="form-control bg-light border-0"
-                                         style="height: 55px;">
-                                <f:passThroughAttribute name="placeholder" value="Your Email" />
-                            </h:inputText>
+                <h:panelGrid columns="2" cellpadding="10">
 
-                            <h:inputText value="#{appointmentBean.appointmentDate}"
-                                         styleClass="form-control bg-light border-0 datetimepicker-input"
-                                         style="height: 55px;">
-                                <f:passThroughAttribute name="placeholder" value="Appointment Date" />
-                            </h:inputText>
+                    <h:selectOneMenu value="#{rendezvousController.selectedService}" styleClass="form-select bg-light border-0" style="height: 55px;">
+                        <f:selectItem itemLabel="Select a service" itemValue="" />
+                        <f:selectItem itemLabel="Consultation" itemValue="Consultation" />
+                        <f:selectItem itemLabel="Vaccination" itemValue="Vaccination" />
+                        <f:selectItem itemLabel="Follow-up" itemValue="Suivi" />
+                    </h:selectOneMenu>
 
-                            <h:inputText value="#{appointmentBean.appointmentTime}"
-                                         styleClass="form-control bg-light border-0 datetimepicker-input"
-                                         style="height: 55px;">
-                                <f:passThroughAttribute name="placeholder" value="Appointment Time" />
-                            </h:inputText>
+                    <h:inputText value="#{rendezvousController.name}" styleClass="form-control bg-light border-0" style="height: 55px;">
+                        <f:passThroughAttribute name="placeholder" value="Your name" />
+                    </h:inputText>
 
-                            <h:commandButton value="Make Appointment" class="btn btn-dark w-100 py-3" action="#{appointmentBean.makeAppointment}" />
-                        </h:panelGrid>
-                    </h:form>
-                
-            
+                    <h:inputText value="#{rendezvousController.email}" styleClass="form-control bg-light border-0" style="height: 55px;">
+                        <f:passThroughAttribute name="placeholder" value="Your email" />
+                    </h:inputText>
+
+                    <h:inputText value="#{rendezvousController.appointmentDate}" styleClass="form-control bg-light border-0" style="height: 55px;">
+                        <f:passThroughAttribute name="placeholder" value="Date (yyyy-MM-dd)" />
+                    </h:inputText>
+
+                    <h:inputText value="#{rendezvousController.appointmentTime}" styleClass="form-control bg-light border-0" style="height: 55px;">
+                        <f:passThroughAttribute name="placeholder" value="Time (HH:mm)" />
+                    </h:inputText>
+
+                    <h:commandButton value="Confirm Appointment"
+                                     action="#{rendezvousController.makeAppointment}"
+                                     styleClass="btn btn-dark w-100 py-3" />
+                </h:panelGrid>
+            </h:form>
+
         </div>
     </div>
     <!-- Appointment End -->
@@ -310,5 +301,20 @@
     <!-- Autres scripts JS -->
     <h:outputScript name="lib/twentytwenty/jquery.event.move.js" />
     <h:outputScript name="lib/twentytwenty/jquery.twentytwenty.js" />
+    <h:outputScript target="head">
+            function checkLoginAndRedirect() {
+                var isLoggedIn = "#{loginController.utilisateurConnecte != null ? 'true' : 'false'}";
+                if (isLoggedIn === 'true') {
+                    window.location.href = 'faces/appointment.xhtml';
+                } else {
+                    alert('Please login first!');
+                    window.location.href = 'faces/login.xhtml';
+                }
+                return false; // empêche le lien par défaut
+            }
+        </h:outputScript>
+
+
+
 </h:body>
 </html>
