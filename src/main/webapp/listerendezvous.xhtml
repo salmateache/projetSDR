@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+<h:head>
+    <title>Liste des Rendez-vous Médicaux</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f9ff;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            color: #005c99;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid #cce0ff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e6f0ff;
+            color: #003d66;
+        }
+
+        td {
+            background-color: #f9fbff;
+        }
+    </style>
+</h:head>
+<h:body>
+    <f:view>
+        <h:form>
+            <h1><h:outputText value="Liste des Rendez-vous Médicaux"/></h1>
+            <h:dataTable value="#{rendezvousController.rendezvousList}" var="item" styleClass="table">
+                <!-- colonnes existantes -->
+                <h:column>
+                    <f:facet name="header"><h:outputText value="ID"/></f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Date"/></f:facet>
+                    <h:outputText value="#{item.dateRdv}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Heure"/></f:facet>
+                    <h:outputText value="#{item.heureRdv}">
+                        <f:convertDateTime pattern="HH:mm" />
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Statut"/></f:facet>
+                    <h:outputText value="#{item.statut}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Commentaire"/></f:facet>
+                    <h:outputText value="#{item.commentaire}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Patient"/></f:facet>
+                    <h:outputText value="#{rendezvousController.getNomCompletUtilisateur(item)}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Service"/></f:facet>
+                    <h:outputText value="#{item.service}" />
+                </h:column>    
+                    <!-- Nouvelle colonne Action Reporter -->
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Action"/></f:facet>
+                   <h:commandButton value="Reporter" action="#{rendezvousController.prepareReport(item)}" />
+                </h:column>
+                
+            </h:dataTable>
+        </h:form>
+    </f:view>
+</h:body>
+</html>
