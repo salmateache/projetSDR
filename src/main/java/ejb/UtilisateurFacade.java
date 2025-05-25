@@ -50,7 +50,6 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
         }
     }
 
-    // Nouvelle méthode pour récupérer uniquement les utilisateurs avec le rôle "patient"
     public List<Utilisateur> findPatients() {
         return em.createQuery("SELECT u FROM Utilisateur u WHERE u.role = :role", Utilisateur.class)
                  .setParameter("role", "patient")

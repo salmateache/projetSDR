@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Modifier le profil</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #cfd9df, #e2ebf0);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 40px 45px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 520px;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 26px;
+            border-bottom: 2px solid #007BFF;
+            padding-bottom: 10px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-row label {
+            width: 120px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-icon {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .input-icon i {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 14px;
+        }
+
+        .input-icon input {
+            width: 100%;
+            padding: 10px 12px 10px 38px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        .input-icon input:focus {
+            border-color: #007BFF;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+        }
+
+        /* Correction CSS pour les composants JSF */
+        .messages {
+            color: #e74c3c;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .btn-update {
+            background: linear-gradient(to right, #007BFF, #0056b3);
+            color: white;
+            font-size: 16px;
+            padding: 12px 0;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-update:hover {
+            background: linear-gradient(to right, #0056b3, #004494);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 91, 187, 0.4);
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <!-- Messages globaux hors formulaire -->
+    <h:messages globalOnly="true" layout="list" styleClass="messages" />
+
+    <h:form id="profilForm">
+        <h2>Modifier votre profil</h2>
+
+        <div class="form-row">
+            <label for="nom">Nom :</label>
+            <div class="input-icon">
+                <i class="fa fa-user"></i>
+                <h:inputText id="nom" value="#{utilisateurController.utilisateurConnecte.nom}" required="true" requiredMessage="Le nom est obligatoire." />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label for="prenom">Prénom :</label>
+            <div class="input-icon">
+                <i class="fa fa-user"></i>
+                <h:inputText id="prenom" value="#{utilisateurController.utilisateurConnecte.prenom}" required="true" requiredMessage="Le prénom est obligatoire." />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label for="email">Email :</label>
+            <div class="input-icon">
+                <i class="fa fa-envelope"></i>
+                <h:inputText id="email" value="#{utilisateurController.utilisateurConnecte.email}" required="true" requiredMessage="L'email est obligatoire." />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label for="telephone">Téléphone :</label>
+            <div class="input-icon">
+                <i class="fa fa-phone"></i>
+                <h:inputText id="telephone" value="#{utilisateurController.utilisateurConnecte.telephone}" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label for="password">Mot de passe :</label>
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                <h:inputSecret id="password" value="#{utilisateurController.utilisateurConnecte.password}" />
+            </div>
+        </div>
+        
+
+        <h:commandButton value="Mettre à jour" action="#{utilisateurController.updateProfil}" styleClass="btn-update" 
+            onclick="return confirm('Voulez-vous vraiment mettre à jour votre profil ?');" />
+    </h:form>
+</h:body>
+</html>
