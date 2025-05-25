@@ -58,6 +58,12 @@ public class LoginController implements Serializable {
     FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     return "login.xhtml?faces-redirect=true";
 }
+    public boolean isAdmin() {
+    if (utilisateurConnecte != null) {
+        return utilisateurConnecte.getRole() != null && utilisateurConnecte.getRole().equalsIgnoreCase("admin");
+    }
+    return false;
+}
 
     
     public boolean isLoggedIn() {

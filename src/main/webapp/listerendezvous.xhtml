@@ -2,8 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
     <title>Liste des Rendez-vous Médicaux</title>
     <style>
@@ -48,7 +48,6 @@
         <h:form>
             <h1><h:outputText value="Liste des Rendez-vous Médicaux"/></h1>
             <h:dataTable value="#{rendezvousController.rendezvousList}" var="item" styleClass="table">
-                <!-- colonnes existantes -->
                 <h:column>
                     <f:facet name="header"><h:outputText value="ID"/></f:facet>
                     <h:outputText value="#{item.id}"/>
@@ -76,17 +75,25 @@
                 <h:column>
                     <f:facet name="header"><h:outputText value="Patient"/></f:facet>
                     <h:outputText value="#{rendezvousController.getNomCompletUtilisateur(item)}" />
-                </h:column>
+                </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputText value="Service"/></f:facet>
                     <h:outputText value="#{item.service}" />
                 </h:column>    
-                    <!-- Nouvelle colonne Action Reporter -->
                 <h:column>
-                    <f:facet name="header"><h:outputText value="Action"/></f:facet>
-                   <h:commandButton value="Reporter" action="#{rendezvousController.prepareReport(item)}" />
+                 <f:facet name="header"><h:outputText value="Action"/></f:facet>
+
+                    <h:panelGroup rendered="#{loginController.admin}">
+                        <!-- Bouton visible uniquement pour l'admin -->
+                        <h:commandButton value="Modifier" action="#{rendezvousController.prepareReport(item)}" />
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{!loginController.admin}">
+                        <!-- Pour les autres, pas ou bouton "Reporter" si tu veux -->
+                        <h:outputText value="-" />
+                 </h:panelGroup>
                 </h:column>
-                
+
             </h:dataTable>
         </h:form>
     </f:view>
