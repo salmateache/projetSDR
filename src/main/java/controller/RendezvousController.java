@@ -1,7 +1,9 @@
 package controller;
 
 import ejb.RendezvousFacade;
+import ejb.UtilisateurFacade;
 import entities.Rendezvous;
+import entities.Utilisateur;
 import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -28,8 +30,12 @@ public class RendezvousController implements Serializable {
     private List<Rendezvous> rendezvousList;
     private Rendezvous selectedRdv;
 
+    // ✅ CORRECT: inject RendezvousFacade via @EJB
     @EJB
     private RendezvousFacade rendezvousFacade;
+
+    @EJB
+    private UtilisateurFacade utilisateurFacade;
 
     @Inject
     private LoginController loginController;
@@ -119,13 +125,16 @@ public class RendezvousController implements Serializable {
     }
 
     public String getNomCompletUtilisateur(Rendezvous rdv) {
-        if (rdv != null && rdv.getUtilisateur() != null) {
-            return rdv.getUtilisateur().getPrenom() + " " + rdv.getUtilisateur().getNom();
+        if (rdv != null && rdv.getIdUtilisateur() > 0) {
+            Utilisateur utilisateur = utilisateurFacade.find((int) rdv.getIdUtilisateur()); // conversion Long → Integer
+            if (utilisateur != null) {
+                return utilisateur.getPrenom() + " " + utilisateur.getNom();
+            }
         }
         return "";
     }
 
-    // Getters & setters
+    // Getters & Setters
 
     public Rendezvous getSelectedRdv() {
         return selectedRdv;
