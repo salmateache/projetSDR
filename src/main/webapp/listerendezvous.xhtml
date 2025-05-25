@@ -38,9 +38,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto py-0">
+            <a href="faces/admin.xhtml" class="nav-item nav-link">Home</a>
             <a href="faces/home.xhtml" class="nav-item nav-link active">Liste des Rendez-vous</a>
-            <a href="faces/demamde.xhtml" class="nav-item nav-link ">Demande de Rendez-vous</a>
-            <a href="faces/.xhtml" class="nav-item nav-link ">Historique de Rendez-vous</a>
         </div>
         <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"/></button>
         <h:panelGroup rendered="#{!loginController.loggedIn}">
@@ -88,7 +87,10 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputText value="Statut"/></f:facet>
-                    <h:outputText value="#{item.statut}"/>
+                    <h:outputText value="#{item.statut}"
+                                  styleClass="#{item.statut eq 'en attente' ? 'badge bg-warning text-dark' :
+                                                item.statut eq 'rejeté' ? 'badge bg-danger' : 
+                                                'badge bg-success'}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputText value="Commentaire"/></f:facet>

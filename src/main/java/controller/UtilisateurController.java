@@ -25,6 +25,9 @@ public class UtilisateurController implements Serializable {
     private String email;
     private String password;
 
+    // Nouvel attribut pour stocker le patient sélectionné
+    private Utilisateur selectedPatient;
+
     public UtilisateurController() {
     }
 
@@ -58,6 +61,25 @@ public class UtilisateurController implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Utilisateur getSelectedPatient() {
+        return selectedPatient;
+    }
+
+    public void setSelectedPatient(Utilisateur selectedPatient) {
+        this.selectedPatient = selectedPatient;
+    }
+
+    // Méthode pour charger les détails d'un patient via son ID
+    public void loadPatientDetails(Long patientId) {
+        selectedPatient = userEJB.find(patientId);
+        if (selectedPatient == null || !"PATIENT".equalsIgnoreCase(selectedPatient.getRole())) {
+            // patient non trouvé ou rôle incorrect
+            selectedPatient = null;
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Patient non trouvé ou accès interdit"));
+        }
     }
 
     // Méthode de vérification de connexion pour sécuriser les pages
