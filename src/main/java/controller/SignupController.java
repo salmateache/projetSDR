@@ -61,6 +61,10 @@ public class SignupController implements Serializable {
 
     return "login.xhtml?faces-redirect=true";
 }
+    public String goToSignup() {
+    return "signup.xhtml?faces-redirect=true";
+}
+
 
 
     // Getters et Setters

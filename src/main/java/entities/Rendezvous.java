@@ -22,10 +22,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- *
- * @author hp
- */
+
 @Entity
 @Table(name = "rendezvous")
 @XmlRootElement
@@ -55,6 +52,8 @@ public class Rendezvous implements Serializable {
     @Column(name = "heure_rdv")
     @Temporal(TemporalType.TIME)
     private Date heureRdv;
+    @Size(max = 10)
+
     @Size(max = 20)
     @Column(name = "statut")
     private String statut;
