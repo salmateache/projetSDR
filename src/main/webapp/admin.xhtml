@@ -24,7 +24,7 @@
     <h:outputStylesheet name="lib/owlcarousel/assets/owl.carousel.min.css" />
     <h:outputStylesheet name="lib/animate/animate.min.css" />
     <h:outputStylesheet name="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" />
-    <h:outputStylesheet name="/lib/twentytwenty/twentytwenty.css" />
+    <h:outputStylesheet name="lib/twentytwenty/twentytwenty.css" />
     <h:outputStylesheet library="css" name="bootstrap.min.css" />
     <h:outputStylesheet library="css" name="style.css" />
 
@@ -40,19 +40,16 @@
             color: #333;
             padding: 20px;
         }
-
         h1 {
             margin-bottom: 20px;
             font-weight: 700;
             font-size: 2.2em;
-            color: #007bff; /* Bleu */
+            color: #007bff;
             text-align: center;
         }
-
         h1 span {
             color: #27ae60;
         }
-
         form {
             max-width: 900px;
             margin: 0 auto;
@@ -61,51 +58,43 @@
             border-radius: 10px;
             padding: 30px;
         }
-
         form > h1 {
             text-align: left;
-            color: #007bff; /* Bleu */
+            color: #007bff;
             font-weight: 600;
             margin-bottom: 15px;
             border-bottom: 2px solid #007bff;
             padding-bottom: 5px;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
             border-radius: 10px;
             overflow: hidden;
         }
-
         th, td {
             padding: 12px 15px;
             text-align: left;
             font-size: 1em;
         }
-
         th {
-            background-color: #007bff; /* Bleu */
+            background-color: #007bff;
             color: #fff;
             font-weight: 600;
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-
         tbody tr:nth-child(even) {
-            background-color: #e7f1ff; /* Bleu clair */
+            background-color: #e7f1ff;
         }
-
         tbody tr:hover {
-            background-color: #c2d9ff; /* Bleu moyen clair */
+            background-color: #c2d9ff;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .separator {
             margin: 30px 0;
         }
-
         @media (max-width: 700px) {
             form {
                 padding: 15px;
@@ -178,28 +167,27 @@
             <h1><h:outputText value="Liste des patients"/></h1>
 
             <!-- Tableau des patients -->
-                <h:dataTable value="#{utilisateurController.patients}" var="item" border="0" styleClass="table-custom">
-        <h:column>
-            <f:facet name="header"><h:outputText value="Id"/></f:facet>
-            <h:outputText value="#{item.id}"/>
-        </h:column>
-        <h:column>
-            <f:facet name="header"><h:outputText value="Nom"/></f:facet>
-            <h:outputText value="#{item.nom}"/>
-        </h:column>
-        <h:column>
-            <f:facet name="header"><h:outputText value="Prenom"/></f:facet>
-            <h:outputText value="#{item.prenom}"/>
-        </h:column>
-        <h:column>
-            <f:facet name="header"><h:outputText value="Détails" /></f:facet>
-            <h:commandLink action="detailspatient.xhtml">
-                <f:param name="id" value="#{item.id}" />
-                <h:button value="Détails" styleClass="btn btn-primary btn-sm" />
-            </h:commandLink>
-    </h:column>
-</h:dataTable>
-
+            <h:dataTable value="#{utilisateurController.patients}" var="item" border="0" styleClass="table">
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Id"/></f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Nom"/></f:facet>
+                    <h:outputText value="#{item.nom}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Prenom"/></f:facet>
+                    <h:outputText value="#{item.prenom}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="Détails" /></f:facet>
+                    <h:link outcome="detailspatient.xhtml" styleClass="btn btn-primary btn-sm">
+                        <f:param name="id" value="#{item.id}" />
+                        Détails
+                    </h:link>
+                </h:column>
+            </h:dataTable>
         </h:form>
     </f:view>
 

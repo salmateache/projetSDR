@@ -160,9 +160,10 @@
                             <h1 class="display-1 text-white mb-md-4 animated zoomIn">Take The Best Quality Dental Treatment</h1>
                             <div class="d-flex justify-content-center flex-wrap">
                             <h:form styleClass="d-flex flex-wrap">
-                                <h:commandLink value="Appointment" action="#{loginController.goToAppointment}"  styleClass="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
+                                <h:commandLink value="Appointment" onclick="return checkLoginAndRedirect();"  styleClass="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
                                 <h:commandLink value="Contact Us" action="contact.xhtml" styleClass="btn btn-secondary py-md-3 px-md-5 animated slideInRight" />
                             </h:form>
+
                             </div>    
                         </div>
                     </div>
@@ -177,7 +178,7 @@
                             <h1 class="display-1 text-white mb-md-4 animated zoomIn">Take The Best Quality Dental Treatment</h1>
                             <div class="d-flex justify-content-center flex-wrap">
                             <h:form styleClass="d-flex flex-wrap">
-                                <h:commandLink value="Appointment" action="#{loginController.goToAppointment}"  styleClass="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
+                                <h:commandLink value="Appointment" onclick="return checkLoginAndRedirect();"  styleClass="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
                                 <h:commandLink value="Contact Us" action="contact.xhtml" styleClass="btn btn-secondary py-md-3 px-md-5 animated slideInRight" />
                             </h:form>
                             </div> 
@@ -216,7 +217,8 @@
                                 <h6 class="text-white mb-0">Sunday</h6>
                                 <p class="mb-0"> 8:00am - 5:00pm</p>
                             </div>
-                         <a href="#" onclick="return checkLoginAndRedirect();" class="dropdown-item">Appointment</a>
+                          <h:link value="Appointment" onclick="return checkLoginAndRedirect();" outcome="appointment" class="btn btn-light" />
+
                         </div>
                     </div>
                                         <div class="col-lg-4 wow zoomIn" data-wow-delay="0.6s">
@@ -241,7 +243,7 @@
                         <div class="offer-text text-center rounded p-5">
                             <h1 class="display-5 text-white">Save 30% On Your First Dental Checkup</h1>
                             <p class="text-white mb-4">Give your smile the care it deserves! Enjoy a comprehensive dental exam at a reduced price. Our friendly and professional team is here to make your first visit comfortable and stress-free.</p>
-                             <a href="#" onclick="return checkLoginAndRedirect();" class="dropdown-item">Appointment</a>
+                             <h:commandLink value="Appointment" onclick="return checkLoginAndRedirect();"  styleClass="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
                             <h:link value="Read More" outcome="about" class="btn btn-light py-3 px-5" />
                         </div>
                     </div>

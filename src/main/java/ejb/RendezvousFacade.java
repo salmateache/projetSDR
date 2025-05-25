@@ -42,8 +42,5 @@ public class RendezvousFacade extends AbstractFacade<Rendezvous> {
              .setParameter("id", idUtilisateur)
              .getResultList();
 }
-
-
-
-    
+       
 }

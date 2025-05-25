@@ -55,4 +55,5 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
                  .setParameter("role", "patient")
                  .getResultList();
     }
+    
 }

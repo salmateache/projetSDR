@@ -109,28 +109,29 @@
     </nav>
     <!-- Navbar End -->
     <!-- Full Screen Search Start -->
-    <h:form>
-        <div class="modal fade" id="searchModal" tabindex="-1">
-            <div class="modal-dialog modal-fullscreen">
-                <div class="modal-content" style="background: rgba(9, 30, 62, .7);">
-                    <div class="modal-header border-0">
-                        <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"/>
-                    </div>
-                    <div class="modal-body d-flex align-items-center justify-content-center">
-                        <div class="input-group" style="max-width: 600px;">
-                            <h:inputText styleClass="form-control bg-transparent border-primary p-3">
-                                <f:passThroughAttribute name="placeholder" value="Type search keyword" />
-                            </h:inputText>
-                            <button class="btn btn-primary px-4">
-                                <i class="bi bi-search"/>
-                            </button>
+        <h:form id="searchForm">
+            <div class="modal fade" id="searchModal" tabindex="-1">
+                <div class="modal-dialog modal-fullscreen">
+                    <div class="modal-content" style="background: rgba(9, 30, 62, .7);">
+                        <div class="modal-header border-0">
+                            <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                        </div>
+                        <div class="modal-body d-flex align-items-center justify-content-center">
+                            <div class="input-group" style="max-width: 600px;">
+                                <input type="text" id="searchInput" 
+                                       class="form-control bg-transparent border-primary p-3"
+                                       placeholder="Type search keyword" />
+                                <button type="button" class="btn btn-primary px-4"
+                                        onclick="searchAndScroll()">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </h:form>
-    <!-- Full Screen Search End -->
+        </h:form>
+<!-- Full Screen Search End -->
 
     <!-- Hero Start -->
     <div class="container-fluid bg-primary py-5 hero-header mb-5">
@@ -204,23 +205,26 @@
     <!-- Appointment End -->
 
 
-    <!-- Newsletter Start -->
-    <div class="container-fluid position-relative pt-5 wow fadeInUp" data-wow-delay="0.1s" style="z-index: 1;">
-        <div class="container">
-            <div class="bg-primary p-5">
-                <h:form class="mx-auto" style="max-width: 600px;">
-                    <div class="input-group">
-                        <h:inputText class="form-control border-white p-3">
-                            <f:passThroughAttribute name="placeholder" value="Your Email" />
-                        </h:inputText>
+   <!-- Newsletter Start -->
+        <div class="container-fluid position-relative pt-5 wow fadeInUp" data-wow-delay="0.1s" style="z-index: 1;">
+            <div class="container">
+                <div class="bg-primary p-5">
+                    <h:form class="mx-auto" style="max-width: 600px;">
+                        <div class="input-group">
+                            <h:inputText value="#{signupController.email}"
+                                         styleClass="form-control border-white p-3">
+                                <f:passThroughAttribute name="placeholder" value="Votre Email" />
+                            </h:inputText>
 
-                        <h:commandButton class="btn btn-dark px-4" value="Sign Up" />
-                    </div>
-                </h:form>
+                            <h:commandButton value="Sign Up"
+                                             action="#{signupController.goToSignup}"
+                                             styleClass="btn btn-dark px-4" />
+                        </div>
+                    </h:form>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Newsletter End -->
+        <!-- Newsletter End -->
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light py-5 wow fadeInUp" data-wow-delay="0.3s" style="margin-top: -75px;">
@@ -309,13 +313,48 @@
             function checkLoginAndRedirect() {
                 var isLoggedIn = "#{loginController.utilisateurConnecte != null ? 'true' : 'false'}";
                 if (isLoggedIn === 'true') {
-                    window.location.href = 'faces/appointment.xhtml';
+                    window.location.href = 'appointment.xhtml';
                 } else {
                     alert('Please login first!');
-                    window.location.href = 'faces/login.xhtml';
+                    window.location.href = 'login.xhtml';
                 }
                 return false; // empêche le lien par défaut
             }
+                  function checkLoginAndRedirect() {
+                var isLoggedIn = "#{loginController.utilisateurConnecte != null ? 'true' : 'false'}";
+                if (isLoggedIn === 'true') {
+                    window.location.href = 'appointment.xhtml';
+                } else {
+                    alert('Please login first!');
+                    window.location.href = 'login.xhtml';
+                }
+                return false; // empêche le lien par défaut
+            }
+           function searchAndScroll() {
+            const keyword = document.getElementById('searchInput').value.trim();
+            if (!keyword) return;
+
+            const elements = document.body.querySelectorAll("*");
+            for (let el of elements) {
+                // Ignorer les balises non pertinentes
+                if (
+                    ['SCRIPT', 'STYLE', 'HEAD'].includes(el.tagName) ||
+                    el.children.length > 0 ||
+                    !el.textContent.toLowerCase().includes(keyword.toLowerCase())
+                ) continue;
+
+                // On a trouvé un élément contenant le mot-clé
+                el.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                // Arrêter à la première correspondance
+                break;
+            }
+
+            // Fermer la modale Bootstrap
+            const modalEl = document.getElementById("searchModal");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+        }
         </h:outputScript>
 
 

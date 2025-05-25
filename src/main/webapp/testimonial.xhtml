@@ -57,78 +57,92 @@
     <!-- Topbar End -->
 
  <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
-        <a href="home.xhtml" class="navbar-brand p-0">
-            <h1 class="m-0 text-primary"><i class="fa fa-tooth me-2"/>DentCare</h1>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"/>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto py-0">
-                <a href="home.xhtml" class="nav-item nav-link ">Home</a>
-                <a href="about.xhtml" class="nav-item nav-link ">About</a>
-                <a href="service.xhtml" class="nav-item nav-link">Service</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="price.xhtml" class="dropdown-item">Pricing Plan</a>
-                        <a href="testimonial.xhtml" class="dropdown-item active">Testimonial</a>
-                        <a href="appointment.xhtml" class="dropdown-item">Appointment</a>
-                    </div>
-                </div>
-                <a href="contact.xhtml" class="nav-item nav-link ">Contact</a>
-            </div>
-            <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"/></button>
-            <!-- Bouton LOGIN : affiché seulement si l'utilisateur N'EST PAS connecté -->
-            <h:panelGroup rendered="#{!loginController.loggedIn}">
-                <a href="login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
-            </h:panelGroup>
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
+         <a href="home.xhtml" class="navbar-brand p-0">
+             <h1 class="m-0 text-primary"><i class="fa fa-tooth me-2"/>DentCare</h1>
+         </a>
 
-            <!-- Menu déroulant : affiché seulement si l'utilisateur EST connecté -->
-            <h:form styleClass="nav-item dropdown ms-2" rendered="#{loginController.loggedIn}">
-                <a href="#" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
-                </a>
-                <div class="dropdown-menu dropdown-menu-start m-0">
-                    <a href="manageAccount.xhtml" class="dropdown-item">
-                        <i class="fa fa-user me-2"></i> Manage Account
-                    </a>
-                    <h:commandLink action="#{loginController.logout}" 
-                                    styleClass="dropdown-item"
-                                    onclick="return confirm('Are you sure you want to logout?');">
-                         <i class="fa fa-sign-out-alt me-2"></i> Logout
-                     </h:commandLink>
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+             <span class="navbar-toggler-icon"/>
+         </button>
 
-                </div>
-            </h:form>
+         <div class="collapse navbar-collapse" id="navbarCollapse">
+             <div class="navbar-nav ms-auto py-0">
+                 <a href="home.xhtml" class="nav-item nav-link ">Home</a>
+                 <a href="about.xhtml" class="nav-item nav-link ">About</a>
+                 <a href="service.xhtml" class="nav-item nav-link">Service</a>
 
-        </div>
-    </nav>
+                 <div class="nav-item dropdown">
+                     <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
+                     <div class="dropdown-menu m-0">
+                         <a href="price.xhtml" class="dropdown-item">Pricing Plan</a>
+                         <a href="testimonial.xhtml" class="dropdown-item active">Testimonial</a>
+                         <a href="#" onclick="return checkLoginAndRedirect();" class="dropdown-item">Appointment</a>
+                     </div>
+                 </div>
+
+                 <a href="contact.xhtml" class="nav-item nav-link">Contact</a>
+             </div>
+
+             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal">
+                 <i class="fa fa-search"/>
+             </button>
+
+             <!-- Bouton LOGIN : affiché seulement si l'utilisateur N'EST PAS connecté -->
+             <h:panelGroup rendered="#{!loginController.loggedIn}">
+                 <a href="login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
+             </h:panelGroup>
+
+             <!-- Menu utilisateur : affiché si connecté -->
+             <h:panelGroup rendered="#{loginController.loggedIn}">
+                 <div class="nav-item dropdown ms-3">
+                     <a href="#" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                         <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
+                     </a>
+                     <div class="dropdown-menu dropdown-menu-start m-0">
+                         <a href="AppointmentList.xhtml" class="dropdown-item">
+                             <i class="fa fa-list me-2"></i> My Appointments
+                         </a>
+
+                         <!-- Déconnexion dans un formulaire JSF -->
+                         <h:form styleClass="d-inline">
+                             <h:commandLink action="#{loginController.logout}" 
+                                            styleClass="dropdown-item"
+                                            onclick="return confirm('Are you sure you want to logout?');">
+                                 <i class="fa fa-sign-out-alt me-2"></i> Logout
+                             </h:commandLink>
+                         </h:form>
+                     </div>
+                 </div>
+             </h:panelGroup>
+
+         </div>
+     </nav>
     <!-- Navbar End -->
-    <!-- Full Screen Search Start -->
-    <h:form>
-        <div class="modal fade" id="searchModal" tabindex="-1">
-            <div class="modal-dialog modal-fullscreen">
-                <div class="modal-content" style="background: rgba(9, 30, 62, .7);">
-                    <div class="modal-header border-0">
-                        <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"/>
-                    </div>
-                    <div class="modal-body d-flex align-items-center justify-content-center">
-                        <div class="input-group" style="max-width: 600px;">
-                            <h:inputText styleClass="form-control bg-transparent border-primary p-3">
-                                <f:passThroughAttribute name="placeholder" value="Type search keyword" />
-                            </h:inputText>
-                            <button class="btn btn-primary px-4">
-                                <i class="bi bi-search"/>
-                            </button>
+   <!-- Full Screen Search Start -->
+        <h:form id="searchForm">
+            <div class="modal fade" id="searchModal" tabindex="-1">
+                <div class="modal-dialog modal-fullscreen">
+                    <div class="modal-content" style="background: rgba(9, 30, 62, .7);">
+                        <div class="modal-header border-0">
+                            <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                        </div>
+                        <div class="modal-body d-flex align-items-center justify-content-center">
+                            <div class="input-group" style="max-width: 600px;">
+                                <input type="text" id="searchInput" 
+                                       class="form-control bg-transparent border-primary p-3"
+                                       placeholder="Type search keyword" />
+                                <button type="button" class="btn btn-primary px-4"
+                                        onclick="searchAndScroll()">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </h:form>
-    <!-- Full Screen Search End -->
+        </h:form>
+<!-- Full Screen Search End -->
 
     <!-- Hero Start -->
     <div class="container-fluid bg-primary py-5 hero-header mb-5">
@@ -144,53 +158,58 @@
     <!-- Hero End -->
 
     <!-- Testimonial Start -->
-    <div class="container-fluid bg-primary bg-testimonial py-5 mb-5 wow fadeInUp" data-wow-delay="0.1s" style="margin-top: 90px;">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-7">
-                    <div class="owl-carousel testimonial-carousel rounded p-5 wow zoomIn" data-wow-delay="0.6s">
+<div class="container-fluid bg-primary bg-testimonial py-5 mb-5 wow fadeInUp" data-wow-delay="0.1s" style="margin-top: 90px;">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="owl-carousel testimonial-carousel rounded p-5 wow zoomIn" data-wow-delay="0.6s">
 
-                        <!-- Testimonial Item 1 -->
-                        <div class="testimonial-item text-center text-white">
-                            <h:graphicImage library="img" name="testimonial-1.jpg" styleClass="img-fluid mx-auto rounded mb-4" alt="Client 1" />
-                            <p class="fs-5">Dolores sed duo clita justo dolor et stet lorem kasd dolore lorem ipsum. At lorem lorem magna ut et, nonumy labore diam erat. Erat dolor rebum sit ipsum.</p>
-                            <hr class="mx-auto w-25" />
-                            <h4 class="text-white mb-0">Client Name</h4>
-                        </div>
-
-                        <!-- Testimonial Item 2 -->
-                        <div class="testimonial-item text-center text-white">
-                            <h:graphicImage library="img" name="testimonial-2.jpg" styleClass="img-fluid mx-auto rounded mb-4" alt="Client 2" />
-                            <p class="fs-5">Dolores sed duo clita justo dolor et stet lorem kasd dolore lorem ipsum. At lorem lorem magna ut et, nonumy labore diam erat. Erat dolor rebum sit ipsum.</p>
-                            <hr class="mx-auto w-25" />
-                            <h4 class="text-white mb-0">Client Name</h4>
-                        </div>
-
+                    <!-- Testimonial Item 1 -->
+                    <div class="testimonial-item text-center text-white">
+                        <h:graphicImage library="img" name="testimonial-1.jpg" styleClass="img-fluid mx-auto rounded mb-4" alt="Client 1" />
+                        <p class="fs-5">"I had an amazing experience! The team was very professional and the service exceeded my expectations. Highly recommended!"</p>
+                        <hr class="mx-auto w-25" />
+                        <h4 class="text-white mb-0">Emily Thompson</h4>
                     </div>
+
+                    <!-- Testimonial Item 2 -->
+                    <div class="testimonial-item text-center text-white">
+                        <h:graphicImage library="img" name="testimonial-2.jpg" styleClass="img-fluid mx-auto rounded mb-4" alt="Client 2" />
+                        <p class="fs-5">"Exceptional quality and attention to detail. I’m very happy with the results and will definitely return for future services."</p>
+                        <hr class="mx-auto w-25" />
+                        <h4 class="text-white mb-0">James Anderson</h4>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-    <!-- Testimonial End -->
+</div>
+<!-- Testimonial End -->
 
 
 
-    <!-- Newsletter Start -->
-    <div class="container-fluid position-relative pt-5 wow fadeInUp" data-wow-delay="0.1s" style="z-index: 1;">
-        <div class="container">
-            <div class="bg-primary p-5">
-                <h:form class="mx-auto" style="max-width: 600px;">
-                    <div class="input-group">
-                        <h:inputText class="form-control border-white p-3">
-                            <f:passThroughAttribute name="placeholder" value="Your Email" />
-                        </h:inputText>
-                        <h:commandButton class="btn btn-dark px-4" value="Sign Up" />
-                    </div>
-                </h:form>
+
+   <!-- Newsletter Start -->
+        <div class="container-fluid position-relative pt-5 wow fadeInUp" data-wow-delay="0.1s" style="z-index: 1;">
+            <div class="container">
+                <div class="bg-primary p-5">
+                    <h:form class="mx-auto" style="max-width: 600px;">
+                        <div class="input-group">
+                            <h:inputText value="#{signupController.email}"
+                                         styleClass="form-control border-white p-3">
+                                <f:passThroughAttribute name="placeholder" value="Votre Email" />
+                            </h:inputText>
+
+                            <h:commandButton value="Sign Up"
+                                             action="#{signupController.goToSignup}"
+                                             styleClass="btn btn-dark px-4" />
+                        </div>
+                    </h:form>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Newsletter End -->
+        <!-- Newsletter End -->
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light py-5 wow fadeInUp" data-wow-delay="0.3s" style="margin-top: -75px;">
@@ -286,6 +305,41 @@
         '<i class="bi bi-arrow-right"/>'
         ],
         });
+              function checkLoginAndRedirect() {
+                var isLoggedIn = "#{loginController.utilisateurConnecte != null ? 'true' : 'false'}";
+                if (isLoggedIn === 'true') {
+                    window.location.href = 'appointment.xhtml';
+                } else {
+                    alert('Please login first!');
+                    window.location.href = 'login.xhtml';
+                }
+                return false; // empêche le lien par défaut
+            }
+           function searchAndScroll() {
+            const keyword = document.getElementById('searchInput').value.trim();
+            if (!keyword) return;
+
+            const elements = document.body.querySelectorAll("*");
+            for (let el of elements) {
+                // Ignorer les balises non pertinentes
+                if (
+                    ['SCRIPT', 'STYLE', 'HEAD'].includes(el.tagName) ||
+                    el.children.length > 0 ||
+                    !el.textContent.toLowerCase().includes(keyword.toLowerCase())
+                ) continue;
+
+                // On a trouvé un élément contenant le mot-clé
+                el.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                // Arrêter à la première correspondance
+                break;
+            }
+
+            // Fermer la modale Bootstrap
+            const modalEl = document.getElementById("searchModal");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+        }
     </h:outputScript>
 </h:body>
 </html>

@@ -3,6 +3,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       lang="fr">
+
 <h:head>
     <meta charset="utf-8" />
     <title>Détails du Patient - DentCare</title>
@@ -15,65 +16,46 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&amp;family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet" />
 
-    <!-- Styles -->
-    <h:outputStylesheet name="lib/owlcarousel/assets/owl.carousel.min.css" />
-    <h:outputStylesheet name="lib/animate/animate.min.css" />
-    <h:outputStylesheet name="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" />
-    <h:outputStylesheet name="/lib/twentytwenty/twentytwenty.css" />
-    <h:outputStylesheet library="css" name="bootstrap.min.css" />
-    <h:outputStylesheet library="css" name="style.css" />
+    <!-- CSS -->
+    <h:outputStylesheet name="css/bootstrap.min.css" />
+    <h:outputStylesheet name="css/style.css" />
 </h:head>
 
 <h:body>
-   <!-- Navbar Start -->
-<nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
-    <a href="admin.xhtml" class="navbar-brand p-0">
-        <h1 class="m-0 text-primary"><i class="fa fa-tooth me-2"/>DentCare</h1>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"/>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="navbar-nav ms-auto py-0">
-            <a href="admin.xhtml" class="nav-item nav-link active">Home</a>
-            <a href="faces/listerendezvous.xhtml" class="nav-item nav-link">Liste des Rendez-vous</a>
-        </div>
-
-        <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal">
-            <i class="fa fa-search"/>
-        </button>
-
-        <!-- Bouton LOGIN : affiché seulement si l'utilisateur N'EST PAS connecté -->
-        <h:panelGroup rendered="#{!loginController.loggedIn}">
-            <a href="faces/login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
-        </h:panelGroup>
-
-        <!-- Menu déroulant : affiché seulement si l'utilisateur EST connecté -->
-        <h:form styleClass="nav-item dropdown ms-2" rendered="#{loginController.loggedIn}">
-            <a href="#" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
-                <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
-            </a>
-            <div class="dropdown-menu dropdown-menu-start m-0">
-                <a href="faces/manageAccount.xhtml" class="dropdown-item">
-                    <i class="fa fa-user me-2"></i> Manage Account
-                </a>
-                <h:commandLink action="#{loginController.logout}" 
-                                styleClass="dropdown-item"
-                                onclick="return confirm('Are you sure you want to logout?');">
-                    <i class="fa fa-sign-out-alt me-2"></i> Logout
-                </h:commandLink>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3">
+        <a href="admin.xhtml" class="navbar-brand p-0">
+            <h1 class="m-0 text-primary"><i class="fa fa-tooth me-2"></i>DentCare</h1>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="admin.xhtml" class="nav-item nav-link active">Home</a>
+                <a href="listerendezvous.xhtml" class="nav-item nav-link">Liste des Rendez-vous</a>
             </div>
-        </h:form>
-    </div>
-</nav>
-    <!-- Navbar End -->
+            <h:panelGroup rendered="#{!loginController.loggedIn}">
+                <a href="login.xhtml" class="btn btn-primary ms-3">LOGIN</a>
+            </h:panelGroup>
+            <h:form rendered="#{loginController.loggedIn}">
+                <div class="dropdown ms-3">
+                    <a href="#" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="manageAccount.xhtml" class="dropdown-item">Mon Compte</a>
+                        <h:commandLink value="Logout" action="#{loginController.logout}" styleClass="dropdown-item" />
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </nav>
 
-    <!-- Contenu principal -->
+    <!-- Contenu -->
     <f:view>
         <div class="container my-5">
             <h:form>
-                <h1 class="mb-4 text-center">Détails du Patient</h1>
-                <h:panelGrid columns="2" cellpadding="5" styleClass="table table-bordered">
+                <h1 class="mb-4 text-center text-primary">Détails du Patient</h1>
+
+                <h:panelGrid columns="2" cellpadding="6" styleClass="table table-bordered">
                     <h:outputLabel value="ID:" />
                     <h:outputText value="#{patientDetailController.selectedPatient.id}" />
 
@@ -85,34 +67,34 @@
 
                     <h:outputLabel value="Email:" />
                     <h:outputText value="#{patientDetailController.selectedPatient.email}" />
+
+                    <h:outputLabel value="Téléphone:" />
+                    <h:outputText value="#{patientDetailController.selectedPatient.telephone}" />
                 </h:panelGrid>
 
-                <h2 class="mt-5 mb-3 text-center">Liste des rendez-vous</h2>
-                <h:dataTable value="#{patientDetailController.rendezvousList}" var="rdv" styleClass="table table-striped">
+                <h2 class="mt-5 mb-3 text-center">Ses Rendez-vous</h2>
+
+                <h:dataTable value="#{patientDetailController.rendezvousList}" var="rdv" styleClass="table table-striped text-center">
                     <h:column>
                         <f:facet name="header">Date</f:facet>
                         <h:outputText value="#{rdv.dateRdv}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </h:column>
-
                     <h:column>
                         <f:facet name="header">Heure</f:facet>
                         <h:outputText value="#{rdv.heureRdv}">
                             <f:convertDateTime pattern="HH:mm" />
                         </h:outputText>
                     </h:column>
-
                     <h:column>
                         <f:facet name="header">Statut</f:facet>
                         <h:outputText value="#{rdv.statut}" />
                     </h:column>
-
                     <h:column>
                         <f:facet name="header">Commentaire</f:facet>
                         <h:outputText value="#{rdv.commentaire}" />
                     </h:column>
-
                     <h:column>
                         <f:facet name="header">Service</f:facet>
                         <h:outputText value="#{rdv.service}" />
@@ -123,13 +105,11 @@
     </f:view>
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i class="bi bi-arrow-up" /></a>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top">
+        <i class="bi bi-arrow-up"></i>
+    </a>
 
-    <!-- JS Libraries -->
-    <h:outputScript name="lib/jquery/jquery.min.js" />
-    <h:outputScript name="lib/wow/wow.min.js" />
-    <h:outputScript name="lib/easing/easing.min.js" />
-    <h:outputScript name="lib/waypoints/waypoints.min.js" />
-    <h:outputScript name="lib/owlcarousel/owl.carousel.min.js" />
+    <!-- Scripts -->
+    <h:outputScript name="js/main.js" />
 </h:body>
 </html>

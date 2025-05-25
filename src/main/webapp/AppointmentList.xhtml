@@ -116,15 +116,15 @@
 
          <div class="collapse navbar-collapse" id="navbarCollapse">
              <div class="navbar-nav ms-auto py-0">
-                 <a href="faces/home.xhtml" class="nav-item nav-link ">Home</a>
-                 <a href="faces/about.xhtml" class="nav-item nav-link">About</a>
-                 <a href="faces/service.xhtml" class="nav-item nav-link">Service</a>
+                 <a href="home.xhtml" class="nav-item nav-link ">Home</a>
+                 <a href="about.xhtml" class="nav-item nav-link">About</a>
+                 <a href="service.xhtml" class="nav-item nav-link">Service</a>
 
                  <div class="nav-item dropdown">
                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                      <div class="dropdown-menu m-0">
-                         <a href="faces/price.xhtml" class="dropdown-item">Pricing Plan</a>
-                         <a href="faces/testimonial.xhtml" class="dropdown-item">Testimonial</a>
+                         <a href="price.xhtml" class="dropdown-item">Pricing Plan</a>
+                         <a href="testimonial.xhtml" class="dropdown-item">Testimonial</a>
                          <a href="#" onclick="return checkLoginAndRedirect();" class="dropdown-item">Appointment</a>
                      </div>
                  </div>
@@ -138,7 +138,7 @@
 
              <!-- Bouton LOGIN : affiché seulement si l'utilisateur N'EST PAS connecté -->
              <h:panelGroup rendered="#{!loginController.loggedIn}">
-                 <a href="faces/login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
+                 <a href="login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
              </h:panelGroup>
 
              <!-- Menu utilisateur : affiché si connecté -->
@@ -148,7 +148,7 @@
                          <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
                      </a>
                      <div class="dropdown-menu dropdown-menu-start m-0">
-                         <a href="faces/manageAccount.xhtml" class="dropdown-item">
+                         <a href="manageAccount.xhtml" class="dropdown-item">
                              <i class="fa fa-list me-2"></i> Appointment list
                          </a>
 
@@ -237,6 +237,26 @@
                                                 
             </h:dataTable>
     </div>
+<!-- Newsletter Start -->
+        <div class="container-fluid position-relative pt-5 wow fadeInUp" data-wow-delay="0.1s" style="z-index: 1;">
+            <div class="container">
+                <div class="bg-primary p-5">
+                    <h:form class="mx-auto" style="max-width: 600px;">
+                        <div class="input-group">
+                            <h:inputText value="#{signupController.email}"
+                                         styleClass="form-control border-white p-3">
+                                <f:passThroughAttribute name="placeholder" value="Votre Email" />
+                            </h:inputText>
+
+                            <h:commandButton value="Sign Up"
+                                             action="#{signupController.goToSignup}"
+                                             styleClass="btn btn-dark px-4" />
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        <!-- Newsletter End -->
         <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light py-5 wow fadeInUp" data-wow-delay="0.3s" style="margin-top: -75px;">
         <div class="container pt-5">
@@ -325,10 +345,10 @@
             function checkLoginAndRedirect() {
                 var isLoggedIn = "#{loginController.utilisateurConnecte != null ? 'true' : 'false'}";
                 if (isLoggedIn === 'true') {
-                    window.location.href = 'faces/appointment.xhtml';
+                    window.location.href = 'appointment.xhtml';
                 } else {
                     alert('Please login first!');
-                    window.location.href = 'faces/login.xhtml';
+                    window.location.href = 'login.xhtml';
                 }
                 return false; // empêche le lien par défaut
             }
