@@ -133,6 +133,15 @@ public class RendezvousController implements Serializable {
         }
         return "";
     }
+    
+    public List<Rendezvous> getRendezvousDuPatientConnecte() {
+    Utilisateur utilisateur = loginController.getUtilisateurConnecte();
+    if (utilisateur != null) {
+        return rendezvousFacade.findByUtilisateurId(utilisateur.getId());
+    }
+    return null;
+}
+
 
     // Getters & Setters
 

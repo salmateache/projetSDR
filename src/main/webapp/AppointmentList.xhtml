@@ -25,6 +25,55 @@
     <h:outputStylesheet name="/lib/twentytwenty/twentytwenty.css" />
     <h:outputStylesheet library="css" name="bootstrap.min.css" />
     <h:outputStylesheet library="css" name="style.css" />
+    <title>Mes Rendez-vous</title>
+    <style>
+    /* Statuts colorés */
+    .statut-pending {
+        color: orange;
+        font-weight: bold;
+    }
+
+    .statut-confirmed {
+        color: green;
+        font-weight: bold;
+    }
+
+    .statut-canceled {
+        color: red;
+        font-weight: bold;
+        text-decoration: line-through;
+    }
+
+    /* Style général du tableau */
+    table {
+        border-collapse: collapse;
+        width: 90%;
+        margin: 20px auto;
+    }
+    th, td {
+        border: 1px solid #444;
+        padding: 10px;
+        text-align: center; /* Centrage des cellules */
+    }
+    .rdv-table th {
+    text-align: center;
+    background-color: #2c3e50;
+    color: white;
+    padding: 8px;
+    }
+
+
+    th {
+        background-color: #2c3e50;
+        color: white;
+        text-align: center; /* Centrage du texte dans les en-têtes */
+    }
+
+    tr:nth-child(even) {
+        background-color: #ecf0f1; /* Alternance de couleurs pour lisibilité */
+    }
+</style>
+
 </h:head>
 
 
@@ -67,7 +116,7 @@
 
          <div class="collapse navbar-collapse" id="navbarCollapse">
              <div class="navbar-nav ms-auto py-0">
-                 <a href="faces/home.xhtml" class="nav-item nav-link active">Home</a>
+                 <a href="faces/home.xhtml" class="nav-item nav-link ">Home</a>
                  <a href="faces/about.xhtml" class="nav-item nav-link">About</a>
                  <a href="faces/service.xhtml" class="nav-item nav-link">Service</a>
 
@@ -80,7 +129,7 @@
                      </div>
                  </div>
 
-                 <a href="faces/contact.xhtml" class="nav-item nav-link">Contact</a>
+                 <a href="contact.xhtml" class="nav-item nav-link">Contact</a>
              </div>
 
              <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal">
@@ -99,8 +148,8 @@
                          <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
                      </a>
                      <div class="dropdown-menu dropdown-menu-start m-0">
-                         <a href="faces/AppointmentList.xhtml" class="dropdown-item">
-                             <i class="fa fa-list me-2"></i> My Appointments
+                         <a href="faces/manageAccount.xhtml" class="dropdown-item">
+                             <i class="fa fa-list me-2"></i> Appointment list
                          </a>
 
                          <!-- Déconnexion dans un formulaire JSF -->
@@ -143,136 +192,52 @@
             </div>
         </h:form>
 <!-- Full Screen Search End -->
+<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom:150px">
 
+            <h2 style="text-align:center;margin-bottom: 40px">My appointments list</h2>
 
+            <h:panelGroup rendered="#{empty rendezvousController.rendezvousDuPatientConnecte}">
+                <p style="text-align:center;">Aucun rendez-vous trouvé.</p>
+            </h:panelGroup>
 
-    <!-- Carousel Start -->
-    <div class="container-fluid p-0">
-        <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <h:outputLink value="resources/img/carousel-1.jpg" target="_blank">
-                        <img class="w-100" src="#{request.contextPath}/resources/img/carousel-1.jpg" alt="Image" />
-                    </h:outputLink>
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3" style="max-width: 900px;">
-                            <h5 class="text-white text-uppercase mb-3 animated slideInDown">Keep Your Teeth Healthy</h5>
-                            <h1 class="display-1 text-white mb-md-4 animated zoomIn">Take The Best Quality Dental Treatment</h1>
-                            <div class="d-flex justify-content-center flex-wrap">
-                            <h:form styleClass="d-flex flex-wrap">
-                                <h:commandLink value="Appointment" action="#{loginController.goToAppointment}"  styleClass="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
-                                <h:commandLink value="Contact Us" action="contact.xhtml" styleClass="btn btn-secondary py-md-3 px-md-5 animated slideInRight" />
-                            </h:form>
-                            </div>    
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <h:outputLink value="resources/img/carousel-2.jpg" target="_blank">
-                        <img class="w-100" src="#{request.contextPath}/resources/img/carousel-2.jpg" alt="Image" />
-                    </h:outputLink>
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3" style="max-width: 900px;">
-                            <h5 class="text-white text-uppercase mb-3 animated slideInDown">Keep Your Teeth Healthy</h5>
-                            <h1 class="display-1 text-white mb-md-4 animated zoomIn">Take The Best Quality Dental Treatment</h1>
-                            <div class="d-flex justify-content-center flex-wrap">
-                            <h:form styleClass="d-flex flex-wrap">
-                                <h:commandLink value="Appointment" action="#{loginController.goToAppointment}"  styleClass="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" />
-                                <h:commandLink value="Contact Us" action="contact.xhtml" styleClass="btn btn-secondary py-md-3 px-md-5 animated slideInRight" />
-                            </h:form>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"/>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"/>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
+            <h:dataTable value="#{rendezvousController.rendezvousDuPatientConnecte}" var="rdv" border="1"
+                         style="width:90%; margin:auto;" 
+                         styleClass="rdv-table"
+                         rendered="#{not empty rendezvousController.rendezvousDuPatientConnecte}">
+
+                <h:column>
+                    <f:facet name="header">Date</f:facet>
+                    <h:outputText value="#{rdv.dateRdv}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </h:column>
+
+                <h:column>
+                        <f:facet name="header">Heure</f:facet>
+                        <h:outputText value="#{rdv.heureRdv}">
+                            <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </h:column>
+
+                     <h:column>
+                        <f:facet name="header">Service</f:facet>
+                        <h:outputText value="#{rdv.service}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Statut</f:facet>
+                        <h:outputText 
+                            value="#{rdv.statut eq 'en attente' ? 'En attente' 
+                                    : rdv.statut eq 'confirmé' ? 'Confirmé' 
+                                    : rdv.statut eq 'annulé' ? 'Annulé' : rdv.statut}" 
+                            styleClass="#{rdv.statut eq 'en attente' ? 'statut-pending' 
+                                         : rdv.statut eq 'confirmé' ? 'statut-confirmed' 
+                                         : rdv.statut eq 'annulé' ? 'statut-canceled' : ''}" />
+                    </h:column>
+                                                
+            </h:dataTable>
     </div>
-    <!-- Carousel End -->
-    <!-- Banner Start -->
-    <h:form>
-        <div class="container-fluid banner mb-5" style="margin-left: 230px">
-            <div class="container">
-                <div class="row gx-0">
-                    <div class="col-lg-4 wow zoomIn" data-wow-delay="0.1s">
-                        <div class="bg-primary d-flex flex-column p-5" style="height: 300px;">
-                            <h3 class="text-white mb-3">Opening Hours</h3>
-                            <div class="d-flex justify-content-between text-white mb-3">
-                                <h6 class="text-white mb-0">Mon - Fri</h6>
-                                <p class="mb-0"> 8:00am - 9:00pm</p>
-                            </div>
-                            <div class="d-flex justify-content-between text-white mb-3">
-                                <h6 class="text-white mb-0">Saturday</h6>
-                                <p class="mb-0"> 8:00am - 7:00pm</p>
-                            </div>
-                            <div class="d-flex justify-content-between text-white mb-3">
-                                <h6 class="text-white mb-0">Sunday</h6>
-                                <p class="mb-0"> 8:00am - 5:00pm</p>
-                            </div>
-                         <a href="#" onclick="return checkLoginAndRedirect();" class="dropdown-item">Appointment</a>
-                        </div>
-                    </div>
-                                        <div class="col-lg-4 wow zoomIn" data-wow-delay="0.6s">
-                        <div class="bg-secondary d-flex flex-column p-5" style="height: 300px;">
-                            <h3 class="text-white mb-3">Make Appointment</h3>
-                            <p class="text-white">Contact us to schedule your medical appointment. Our team is here to assist you with professionalism and care.</p>
-                            <h2 class="text-white mb-0">+012 345 6789</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </h:form>
-    <!-- Banner End -->
-
-    <!-- Offer Start -->
-    <h:form>
-        <div class="container-fluid bg-offer my-5 py-5 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="container py-5">
-                <div class="row justify-content-center">
-                    <div class="col-lg-7 wow zoomIn" data-wow-delay="0.6s">
-                        <div class="offer-text text-center rounded p-5">
-                            <h1 class="display-5 text-white">Save 30% On Your First Dental Checkup</h1>
-                            <p class="text-white mb-4">Give your smile the care it deserves! Enjoy a comprehensive dental exam at a reduced price. Our friendly and professional team is here to make your first visit comfortable and stress-free.</p>
-                             <a href="#" onclick="return checkLoginAndRedirect();" class="dropdown-item">Appointment</a>
-                            <h:link value="Read More" outcome="about" class="btn btn-light py-3 px-5" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </h:form>
-    <!-- Offer End -->
-    <!-- Newsletter Start -->
-        <div class="container-fluid position-relative pt-5 wow fadeInUp" data-wow-delay="0.1s" style="z-index: 1;">
-            <div class="container">
-                <div class="bg-primary p-5">
-                    <h:form class="mx-auto" style="max-width: 600px;">
-                        <div class="input-group">
-                            <h:inputText value="#{signupController.email}"
-                                         styleClass="form-control border-white p-3">
-                                <f:passThroughAttribute name="placeholder" value="Votre Email" />
-                            </h:inputText>
-
-                            <h:commandButton value="Sign Up"
-                                             action="#{signupController.goToSignup}"
-                                             styleClass="btn btn-dark px-4" />
-                        </div>
-                    </h:form>
-                </div>
-            </div>
-        </div>
-        <!-- Newsletter End -->
-
-
-    <!-- Footer Start -->
+        <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light py-5 wow fadeInUp" data-wow-delay="0.3s" style="margin-top: -75px;">
         <div class="container pt-5">
             <div class="row g-5 pt-4">

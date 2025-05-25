@@ -37,5 +37,13 @@ public class RendezvousFacade extends AbstractFacade<Rendezvous> {
     query.setParameter("time", time);
     return query.getResultList();
 }
+    public List<Rendezvous> findByUtilisateurId(long idUtilisateur) {
+    return em.createQuery("SELECT r FROM Rendezvous r WHERE r.idUtilisateur = :id", Rendezvous.class)
+             .setParameter("id", idUtilisateur)
+             .getResultList();
+}
+
+
+
     
 }
