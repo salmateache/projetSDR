@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      lang="fr">
+      lang="en">
 <h:head>
     <meta charset="utf-8" />
-    <title>DentCare - Liste des Rendez-vous Médicaux</title>
+    <title>DentCare - Medical Appointment List</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Favicon -->
@@ -39,7 +39,7 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto py-0">
             <a href="faces/admin.xhtml" class="nav-item nav-link">Home</a>
-            <a href="faces/home.xhtml" class="nav-item nav-link active">Liste des Rendez-vous</a>
+            <a href="faces/home.xhtml" class="nav-item nav-link active">Appointment List</a>
         </div>
         <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"/></button>
         <h:panelGroup rendered="#{!loginController.loggedIn}">
@@ -63,11 +63,11 @@
 </nav>
 <!-- Navbar End -->
 
-<!-- Rendez-vous List -->
+<!-- Appointment List -->
 <f:view>
     <h:form>
         <div class="container py-5">
-            <h1 class="text-center text-primary mb-4">Liste des Rendez-vous Médicaux</h1>
+            <h1 class="text-center text-primary mb-4">Medical Appointment List</h1>
             <h:dataTable value="#{rendezvousController.rendezvousList}" var="item" styleClass="table table-striped table-bordered text-center">
                 <h:column>
                     <f:facet name="header"><h:outputText value="ID"/></f:facet>
@@ -80,20 +80,20 @@
                     </h:outputText>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputText value="Heure"/></f:facet>
+                    <f:facet name="header"><h:outputText value="Time"/></f:facet>
                     <h:outputText value="#{item.heureRdv}">
                         <f:convertDateTime pattern="HH:mm" />
                     </h:outputText>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputText value="Statut"/></f:facet>
+                    <f:facet name="header"><h:outputText value="Status"/></f:facet>
                     <h:outputText value="#{item.statut}"
                                   styleClass="#{item.statut eq 'en attente' ? 'badge bg-warning text-dark' :
                                                 item.statut eq 'rejeté' ? 'badge bg-danger' : 
                                                 'badge bg-success'}" />
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputText value="Commentaire"/></f:facet>
+                    <f:facet name="header"><h:outputText value="Comment"/></f:facet>
                     <h:outputText value="#{item.commentaire}"/>
                 </h:column>
                 <h:column>
@@ -106,7 +106,11 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputText value="Action"/></f:facet>
-                    <h:commandButton value="Modifier" action="#{rendezvousController.prepareReport(item)}" styleClass="btn btn-sm btn-outline-primary" />
+                    <h:commandButton 
+                        value="Edit" 
+                        action="#{rendezvousController.prepareReport(item)}" 
+                        styleClass="btn btn-sm btn-outline-primary"
+                        rendered="#{item.statut ne 'confirmée' and item.statut ne 'confirmed'}" />
                 </h:column>
             </h:dataTable>
         </div>

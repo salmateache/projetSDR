@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      lang="fr">
+      lang="en">
 <h:head>
     <meta charset="utf-8" />
-    <title>DentCare - Modifier Rendez-vous</title>
+    <title>DentCare - Edit Appointment</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Favicon -->
@@ -92,8 +92,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto py-0">
-            <a href="listerendezvous.xhtml" class="nav-item nav-link">Liste des Rendez-vous</a>
-            <a href="demamde.xhtml" class="nav-item nav-link">Demande de Rendez-vous</a>
+            <a href="listerendezvous.xhtml" class="nav-item nav-link">Appointments List</a>
+            <a href="demamde.xhtml" class="nav-item nav-link">Appointment Request</a>
         </div>
         <h:panelGroup rendered="#{!loginController.loggedIn}">
             <a href="login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
@@ -103,10 +103,10 @@
                 <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
             </a>
             <div class="dropdown-menu dropdown-menu-start m-0">
-                <a href="manageAccount.xhtml" class="dropdown-item"><i class="fa fa-user me-2"></i>Compte</a>
+                <a href="manageAccount.xhtml" class="dropdown-item"><i class="fa fa-user me-2"></i>Account</a>
                 <h:commandLink action="#{loginController.logout}" styleClass="dropdown-item"
-                               onclick="return confirm('Se déconnecter ?');">
-                    <i class="fa fa-sign-out-alt me-2"></i>Déconnexion
+                               onclick="return confirm('Do you want to logout?');">
+                    <i class="fa fa-sign-out-alt me-2"></i>Logout
                 </h:commandLink>
             </div>
         </h:form>
@@ -114,33 +114,33 @@
 </nav>
 <!-- Navbar End -->
 
-<!-- Formulaire de modification -->
+<!-- Edit Appointment Form -->
 <f:view>
     <h:form class="form-container">
-        <h2 class="text-center text-primary mb-4">Modifier Rendez-vous</h2>
+        <h2 class="text-center text-primary mb-4">Edit Appointment</h2>
 
         <h:messages globalOnly="true" layout="table" styleClass="message info" errorClass="message error" />
 
         <!-- Date -->
-        <label for="dateRdv">Date du Rendez-vous :</label>
+        <label for="dateRdv">Appointment Date:</label>
         <h:inputText id="dateRdv" value="#{rendezvousController.selectedRdv.dateRdv}">
             <f:convertDateTime pattern="yyyy-MM-dd" />
         </h:inputText>
 
-        <!-- Statut -->
-        <label for="statut">Statut :</label>
+        <!-- Status -->
+        <label for="statut">Status:</label>
         <h:selectOneMenu id="statut" value="#{rendezvousController.selectedRdv.statut}">
-            <f:selectItem itemLabel="Sélectionnez un statut" itemValue="" />
-            <f:selectItem itemLabel="Confirmé" itemValue="confirmé" />
-            <f:selectItem itemLabel="Rejeté" itemValue="rejeté" />
-            <f:selectItem itemLabel="Supprimé" itemValue="supprimé" />
-            <f:selectItem itemLabel="En attente" itemValue="en attente" />
+            <f:selectItem itemLabel="Select a status" itemValue="" />
+            <f:selectItem itemLabel="Confirmed" itemValue="confirmed" />
+            <f:selectItem itemLabel="Rejected" itemValue="rejected" />
+          
+            <f:selectItem itemLabel="Pending" itemValue="pending" />
         </h:selectOneMenu>
 
-        <!-- Boutons -->
+        <!-- Buttons -->
         <div class="buttons">
-            <h:commandButton value="Enregistrer" action="#{rendezvousController.saveReport}" styleClass="btn-custom" />
-            <h:commandButton value="Annuler" action="listerendezvous.xhtml?faces-redirect=true" immediate="true" styleClass="btn-custom cancel"/>
+            <h:commandButton value="Save" action="#{rendezvousController.saveReport}" styleClass="btn-custom" />
+            <h:commandButton value="Cancel" action="listerendezvous.xhtml?faces-redirect=true" immediate="true" styleClass="btn-custom cancel"/>
         </div>
     </h:form>
 </f:view>
