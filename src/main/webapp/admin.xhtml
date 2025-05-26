@@ -29,85 +29,6 @@
     <h:outputStylesheet library="css" name="style.css" />
 
     <!-- Styles spécifiques -->
-    <style>
-        body, h1, h2, table {
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f9fafb;
-            color: #333;
-            padding: 20px;
-        }
-        h1 {
-            margin-bottom: 20px;
-            font-weight: 700;
-            font-size: 2.2em;
-            color: #007bff;
-            text-align: center;
-        }
-        h1 span {
-            color: #27ae60;
-        }
-        form {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            padding: 30px;
-        }
-        form > h1 {
-            text-align: left;
-            color: #007bff;
-            font-weight: 600;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            font-size: 1em;
-        }
-        th {
-            background-color: #007bff;
-            color: #fff;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-        tbody tr:nth-child(even) {
-            background-color: #e7f1ff;
-        }
-        tbody tr:hover {
-            background-color: #c2d9ff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .separator {
-            margin: 30px 0;
-        }
-        @media (max-width: 700px) {
-            form {
-                padding: 15px;
-            }
-            th, td {
-                padding: 10px 8px;
-                font-size: 0.9em;
-            }
-            h1 {
-                font-size: 1.6em;
-            }
-        }
-    </style>
 </h:head>
 
 <h:body>
@@ -121,8 +42,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="admin.xhtml" class="nav-item nav-link">Home</a>
-                <a href="faces/listerendezvous.xhtml" class="nav-item nav-link active">Liste des Rendez-vous</a>
+                <a href="admin.xhtml" class="nav-item nav-link active">Home</a>
+                <a href="faces/listerendezvous.xhtml" class="nav-item nav-link">Liste des Rendez-vous</a>
             </div>
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal">
                 <i class="fa fa-search"></i>
@@ -155,9 +76,10 @@
 
     <f:view>
         <h:form>
+            <div class="container py-5">
             <!-- Message de bienvenue -->
-            <h1>
-                Bienvenue, <span><h:outputText value="#{loginController.utilisateurConnecte.prenom}" /></span> !
+            <h1 class="text-center text-primary mb-4">
+                Bienvenue, <span style="color: #FF0000;"><h:outputText value="#{loginController.utilisateurConnecte.prenom}" /></span> !
             </h1>
 
             <!-- Séparation visuelle -->
@@ -188,6 +110,7 @@
                     </h:link>
                 </h:column>
             </h:dataTable>
+            </div>
         </h:form>
     </f:view>
 
