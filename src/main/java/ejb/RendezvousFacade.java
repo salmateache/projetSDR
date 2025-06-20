@@ -9,6 +9,9 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,5 +45,22 @@ public class RendezvousFacade extends AbstractFacade<Rendezvous> {
              .setParameter("id", idUtilisateur)
              .getResultList();
 }
-       
+public List<Rendezvous> findThisWeek() {
+    Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+    Date start = cal.getTime();
+
+    cal.add(Calendar.DAY_OF_WEEK, 6);
+    Date end = cal.getTime();
+
+    return em.createQuery("SELECT r FROM Rendezvous r WHERE r.dateRdv BETWEEN :start AND :end", Rendezvous.class)
+            .setParameter("start", start)
+            .setParameter("end", end)
+            .getResultList();
+}
+
+ public List<Rendezvous> findAll() {
+        return em.createQuery("SELECT r FROM Rendezvous r", Rendezvous.class).getResultList();
+    }
+    
 }

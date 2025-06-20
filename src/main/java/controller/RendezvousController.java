@@ -10,8 +10,14 @@ import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,12 +26,14 @@ import java.util.List;
 public class RendezvousController implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private LocalTime heureRdv;
 
     private String selectedService;
     private String name;
     private String email;
     private String appointmentDate; // format "yyyy-MM-dd"
     private String appointmentTime; // format "HH:mm"
+    private LocalDate dateRdv;
 
     private List<Rendezvous> rendezvousList;
     private Rendezvous selectedRdv;
@@ -52,6 +60,41 @@ public class RendezvousController implements Serializable {
     public List<Rendezvous> getAllRendezvous() {
         return rendezvousFacade.findAll();
     }
+
+
+
+ public String getRendezvousJson() {
+    List<Rendezvous> rdvs = rendezvousFacade.findAll();
+    StringBuilder json = new StringBuilder("[");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
+    for (int i = 0; i < rdvs.size(); i++) {
+        Rendezvous rdv = rdvs.get(i);
+
+        String date = dateFormat.format(rdv.getDateRdv());
+        String time = timeFormat.format(rdv.getHeureRdv());
+        String start = date + "T" + time;
+
+        // Utiliser uniquement le service comme titre
+        String title = rdv.getService() != null ? rdv.getService() : "Sans service";
+
+        // Échapper les guillemets s’il y en a dans le service
+        title = title.replace("\"", "\\\"");
+
+        json.append("{")
+            .append("\"title\":\"").append(title).append("\",")
+            .append("\"start\":\"").append(start).append("\"")
+            .append("}");
+
+        if (i < rdvs.size() - 1) {
+            json.append(",");
+        }
+    }
+    json.append("]");
+    return json.toString();
+}
+
 
     public void makeAppointment() {
         try {
@@ -141,7 +184,7 @@ public class RendezvousController implements Serializable {
     }
     return null;
 }
-
+ 
 
     // Getters & Setters
 
