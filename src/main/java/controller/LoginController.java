@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Named(value = "loginController")
 @SessionScoped
@@ -27,9 +29,11 @@ public class LoginController implements Serializable {
 
     public String login() {
     List<Utilisateur> utilisateurs = userEJB.findAll();
+    String hashedInputPassword = hashPassword(password); // hash du mdp saisi
+
     for (Utilisateur u : utilisateurs) {
         if ((u.getEmail().equalsIgnoreCase(email) || u.getNom().equalsIgnoreCase(email)) &&
-             u.getPassword().equals(password)) {
+             u.getPassword().equals(hashedInputPassword)) {  // compare le hash
             utilisateurConnecte = u;
             loggedIn = true;
             if ("admin".equalsIgnoreCase(u.getRole())) {
@@ -47,6 +51,7 @@ public class LoginController implements Serializable {
         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Identifiants invalides", null));
     return null;
 }
+
     public String goToAppointment() {
         if (loggedIn) {
             return "appointment.xhtml?faces-redirect=true";
@@ -95,4 +100,17 @@ public class LoginController implements Serializable {
     public void setUtilisateurConnecte(Utilisateur utilisateurConnecte) {
         this.utilisateurConnecte = utilisateurConnecte;
     }
+    public static String hashPassword(String password) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hashedBytes = md.digest(password.getBytes());
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashedBytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    } catch (NoSuchAlgorithmException e) {
+        throw new RuntimeException("Erreur lors du hashage du mot de passe", e);
+    }
+}
 }
