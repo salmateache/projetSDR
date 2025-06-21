@@ -114,7 +114,7 @@ public class RendezvousController implements Serializable {
             rdv.setDateRdv(date);
             rdv.setHeureRdv(time);
             rdv.setService(selectedService);
-            rdv.setStatut("en attente");
+            rdv.setStatut("Pending");
             rdv.setCommentaire("");
 
             if (loginController != null && loginController.getUtilisateurConnecte() != null) {

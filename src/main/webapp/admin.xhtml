@@ -143,9 +143,9 @@
     <nav class="sidebar">
       <h3><i class="fa fa-tooth"></i> DentCare</h3>
       <a href="faces/listerendezvous.xhtml" class="btn">Appointment List</a>
-      <a href="faces/listepatients.xhtml" class="btn">Patient List</a>
-      <a href="faces/profile.xhtml" class="btn">Profile</a>
-      <a href="faces/home.xhtml" class="btn">Home</a>
+      <a href="faces/about.xhtml" class="btn">About</a>
+      <a href="faces/admin.xhtml" class="btn">Home</a>
+      <a href="faces/manageProfil.xhtml" class="btn">Profile</a>
     </nav>
 
     <!-- Main Content -->
@@ -206,10 +206,7 @@
 
           <!-- Patient Table -->
           <h:dataTable value="#{utilisateurController.patients}" var="item" border="0" styleClass="table table-striped table-hover">
-            <h:column>
-              <f:facet name="header">Id</f:facet>
-              #{item.id}
-            </h:column>
+           
             <h:column>
               <f:facet name="header">Last Name</f:facet>
               #{item.nom}

@@ -116,6 +116,29 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 91, 187, 0.4);
         }
+        .btn-return {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    background: linear-gradient(to right, #6c757d, #5a6268); /* gris */
+    color: white;
+    font-size: 16px;
+    padding: 12px 0;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-return:hover {
+    background: linear-gradient(to right, #5a6268, #495057);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(90, 98, 104, 0.4);
+}
+
     </style>
 </h:head>
 
@@ -123,7 +146,7 @@
     <!-- Messages globaux hors formulaire -->
     <h:messages globalOnly="true" layout="list" styleClass="messages" />
 
-    <h:form id="profilForm">
+    <h:form id="profilForm" >
         <h2>Modifier votre profil</h2>
 
         <div class="form-row">
@@ -166,9 +189,14 @@
             </div>
         </div>
         
-
+  
         <h:commandButton value="Mettre à jour" action="#{utilisateurController.updateProfil}" styleClass="btn-update" 
             onclick="return confirm('Voulez-vous vraiment mettre à jour votre profil ?');" />
+
+<h:link outcome="#{loginController.admin ? 'admin.xhtml' : 'home.xhtml'}"  class="btn-return">
+    Return
+</h:link>
+
     </h:form>
 </h:body>
 </html>
