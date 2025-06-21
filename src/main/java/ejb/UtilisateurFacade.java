@@ -55,5 +55,9 @@ public class UtilisateurFacade extends AbstractFacade<Utilisateur> {
                  .setParameter("role", "patient")
                  .getResultList();
     }
+    public void edit(Utilisateur u) {
+    em.merge(u); // persist les modifications
+}
+
     
 }
