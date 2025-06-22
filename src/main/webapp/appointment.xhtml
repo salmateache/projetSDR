@@ -83,28 +83,35 @@
                 <a href="contact.xhtml" class="nav-item nav-link ">Contact</a>
             </div>
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"/></button>
-            <!-- Bouton LOGIN : affiché seulement si l'utilisateur N'EST PAS connecté -->
-            <h:panelGroup rendered="#{!loginController.loggedIn}">
-                <a href="login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
-            </h:panelGroup>
+                         <!-- Bouton LOGIN : affiché seulement si l'utilisateur N'EST PAS connecté -->
+             <h:panelGroup rendered="#{!loginController.loggedIn}">
+                 <a href="login.xhtml" class="btn btn-primary py-2 px-4 ms-3">LOGIN</a>
+             </h:panelGroup>
 
-            <!-- Menu déroulant : affiché seulement si l'utilisateur EST connecté -->
-            <h:form styleClass="nav-item dropdown ms-2" rendered="#{loginController.loggedIn}">
-                <a href="#" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
-                </a>
-                <div class="dropdown-menu dropdown-menu-start m-0">
-                    <a href="manageAccount.xhtml" class="dropdown-item">
+             <!-- Menu utilisateur : affiché si connecté -->
+             <h:panelGroup rendered="#{loginController.loggedIn}">
+                 <div class="nav-item dropdown ms-3">
+                     <a href="#" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                         <i class="fa fa-user-cog me-1"></i> #{loginController.utilisateurConnecte.prenom}
+                     </a>
+                     <div class="dropdown-menu dropdown-menu-start m-0">
+                         <a href="AppointmentList.xhtml" class="dropdown-item">
+                             <i class="fa fa-list me-2"></i> My Appointments
+                         </a>
+                           <a href="manageProfil.xhtml" class="dropdown-item">
                         <i class="fa fa-user me-2"></i> Manage Account
-                    </a>
-                    <h:commandLink action="#{loginController.logout}" 
-                                    styleClass="dropdown-item"
-                                    onclick="return confirm('Are you sure you want to logout?');">
-                         <i class="fa fa-sign-out-alt me-2"></i> Logout
-                     </h:commandLink>
-
-                </div>
-            </h:form>
+                    </a> 
+                         <!-- Déconnexion dans un formulaire JSF -->
+                         <h:form styleClass="d-inline">
+                             <h:commandLink action="#{loginController.logout}" 
+                                            styleClass="dropdown-item"
+                                            onclick="return confirm('Are you sure you want to logout?');">
+                                 <i class="fa fa-sign-out-alt me-2"></i> Logout
+                             </h:commandLink>
+                         </h:form>
+                     </div>
+                 </div>
+             </h:panelGroup>
 
         </div>
     </nav>

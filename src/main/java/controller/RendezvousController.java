@@ -123,10 +123,6 @@ public class RendezvousController implements Serializable {
                 rdv.setIdUtilisateur(0);
             }
 
-            if (name != null && !name.isEmpty()) {
-                rdv.setCommentaire("Nom: " + name + ", Email: " + email);
-            }
-
             rendezvousFacade.create(rdv);
 
             FacesContext.getCurrentInstance().addMessage(null,

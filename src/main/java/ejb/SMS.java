@@ -14,6 +14,7 @@ import jakarta.ws.rs.client.WebTarget;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 @Singleton
@@ -24,10 +25,21 @@ public class SMS {
     private EntityManager em;
 
     public List<Rendezvous> getRendezvousDuJour() {
-        return em.createQuery(
-                "SELECT r FROM Rendezvous r WHERE r.dateRdv = CURRENT_DATE", Rendezvous.class)
-                .getResultList();
-    }
+    // Calculer demain
+    java.util.Calendar cal = java.util.Calendar.getInstance();
+    cal.add(java.util.Calendar.DATE, 1);
+    Date demain = cal.getTime();
+
+    // Calculer après-demain pour borne supérieure
+    cal.add(java.util.Calendar.DATE, 1);
+    Date apresDemain = cal.getTime();
+
+    return em.createQuery(
+        "SELECT r FROM Rendezvous r WHERE r.dateRdv >= :demain AND r.dateRdv < :apresDemain", Rendezvous.class)
+        .setParameter("demain", demain)
+        .setParameter("apresDemain", apresDemain)
+        .getResultList();
+}
 
     private void envoyerMessageWhatsapp(String phone, String message, String API_KEY) {
         try {
@@ -38,8 +50,6 @@ public class SMS {
             Client client = ClientBuilder.newClient();
             WebTarget target = client.target(url);
             target.request().get();
-
-            System.out.println("✅ WhatsApp message sent to: " + phone);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,15 +63,22 @@ public class SMS {
             Utilisateur user = em.find(Utilisateur.class, idUtilisateur);
 
             if (user != null && user.getTelephone() != null && !user.getTelephone().isEmpty()) {
-                if (user.getTelephone().equals("212679539240")) {
-                    String key = "1239388";
-                    envoyerMessageWhatsapp(user.getTelephone(), "testttttttttttttttttttt", key);
+                if (user.getTelephone().equals("212613254954")) {
+                    String key = "9651221";
+                    envoyerMessageWhatsapp(user.getTelephone(), "Reminder: You have an appointment tomorrow", key);
                 }
+                
+                
+                
+                
+                
+                
+                
             }
         }
     }
 
-    @Schedule(hour = "15", minute = "15", second = "0", persistent = false)
+    @Schedule(hour = "23", minute = "09", second = "0", persistent = false)
     public void envoyerNotificationsWhatsappChaqueJour() {
         envoyerNotificationsWhatsapp();
     }

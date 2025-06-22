@@ -151,7 +151,9 @@
                          <a href="manageAccount.xhtml" class="dropdown-item">
                              <i class="fa fa-list me-2"></i> Appointment list
                          </a>
-
+                           <a href="manageProfil.xhtml" class="dropdown-item">
+                        <i class="fa fa-user me-2"></i> Manage Account
+                    </a> 
                          <!-- Déconnexion dans un formulaire JSF -->
                          <h:form styleClass="d-inline">
                              <h:commandLink action="#{loginController.logout}" 
@@ -225,15 +227,14 @@
                     </h:column>
 
                     <h:column>
-                        <f:facet name="header">Statut</f:facet>
-                        <h:outputText 
-                            value="#{rdv.statut eq 'en attente' ? 'En attente' 
-                                    : rdv.statut eq 'confirmé' ? 'Confirmé' 
-                                    : rdv.statut eq 'annulé' ? 'Annulé' : rdv.statut}" 
-                            styleClass="#{rdv.statut eq 'en attente' ? 'statut-pending' 
-                                         : rdv.statut eq 'confirmé' ? 'statut-confirmed' 
-                                         : rdv.statut eq 'annulé' ? 'statut-canceled' : ''}" />
-                    </h:column>
+    <f:facet name="header">Status</f:facet>
+    <h:outputText 
+        value="#{rdv.statut}" 
+        styleClass="#{rdv.statut eq 'Pending' ? 'statut-pending' 
+                     : rdv.statut eq 'Confirmed' ? 'statut-confirmed' 
+                     : rdv.statut eq 'Rejected' ? 'statut-canceled' : ''}" />
+</h:column>
+
                                                 
             </h:dataTable>
     </div>

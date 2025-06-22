@@ -11,6 +11,8 @@ import jakarta.faces.event.ComponentSystemEvent;
 import jakarta.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Named(value = "utilisateurController")
@@ -25,6 +27,7 @@ public class UtilisateurController implements Serializable {
     private Utilisateur utilisateurConnecte;
     private String email;
     private String password;
+    private String newPassword;
 
     // Nouvel attribut pour stocker le patient sélectionné
     private Utilisateur selectedPatient;
@@ -70,6 +73,14 @@ public class UtilisateurController implements Serializable {
 
     public void setSelectedPatient(Utilisateur selectedPatient) {
         this.selectedPatient = selectedPatient;
+    }
+    
+    public String getNewPassword() {
+    return newPassword;
+}
+
+    public void setNewPassword(String newPassword) {
+    this.newPassword = newPassword;
     }
 
     // Méthode pour charger les détails d'un patient via son ID
@@ -117,17 +128,39 @@ public class UtilisateurController implements Serializable {
     }
 
     public String updateProfil() {
-        try {
-            userEJB.edit(utilisateurConnecte);
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès", "Profil mis à jour avec succès"));
-            return "manageProfil.xhtml?faces-redirect=true";
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Impossible de mettre à jour le profil"));
-            return null;
+    try {
+        if (newPassword != null && !newPassword.isEmpty()) {
+            utilisateurConnecte.setPassword(hashPassword(newPassword));
         }
+
+        userEJB.edit(utilisateurConnecte);
+
+        FacesContext.getCurrentInstance().addMessage(null,
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès", "Profil mis à jour avec succès"));
+        
+        newPassword = null; // réinitialiser après mise à jour
+        return "manageProfil.xhtml?faces-redirect=true";
+    } catch (Exception e) {
+        FacesContext.getCurrentInstance().addMessage(null,
+            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Impossible de mettre à jour le profil"));
+        return null;
     }
+}
+    private String hashPassword(String password) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hashedBytes = md.digest(password.getBytes());
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashedBytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    } catch (NoSuchAlgorithmException e) {
+        throw new RuntimeException("Erreur lors du hashage du mot de passe", e);
+    }
+}
+
+
     
     @PostConstruct
 public void init() {
